@@ -1,0 +1,53 @@
+<resources>
+    <string name="app_name">ImpexTutor</string>
+    <string name="title_activity_login">Sign in</string>
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_username">Username</string>
+    <string name="prompt_dateofbirth">Date of Birth</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">LOGIN</string>
+    <string name="new_user">New to Impex Tutor?</string>
+    <string name="sign_up_start">Sign Up</string>
+    <string name="action_sign_up">CREATE ACCOUNT</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="alreadysignup">Already have a Impex Tutor Account?</string>
+    <string name="signin_start">Sign in</string>
+    <string name="error_invalid_username">Username should be at least 6 characters long and less than 30 characters</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="Welcome">Welcome to Impex tutors and d buy the latest and trrending courses and get the best knowledge on how to trade
+     you can watch videos of classes and radio podcasts</string>
+    <string name="DescriptionTest">Welcome to Impex tutors and d buy the latest and trrending courses and get the best knowledge on how to trade
+     you can watch videos of classes and radio podcasts,
+    >Welcome to Impex tutors and d buy the latest and trrending courses and get the best knowledge on how to trade
+     you can watch videos of classes and radio podcasts,
+    </string>
+    <string name="message">Learn trade and get certified from America from the comfort of your room. You only come to our centre to write your examination</string>
+    <string name="title_activity_register">Sign up</string>
+
+    <string name="facebook_app_id">378995692855919</string>
+    <string name="fb_login_protocol_scheme">fb378995692855919</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_courses">Courses</string>
+    <string name="title_store">Store</string>
+    <string name="title_myaccount">My Account</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

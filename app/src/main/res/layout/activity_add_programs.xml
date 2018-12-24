@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".UI_Components.Activities.AddProgramFeaturesActivity">
+    <ProgressBar
+        android:id="@+id/login_progress"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone" />
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/adddatalayout"
+
+        >
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Program ID"
+            android:padding="10dp"
+            android:layout_gravity="center"
+            android:id="@+id/programID"/>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Program Title"
+            android:padding="10dp"
+            android:id="@+id/programtitle"/>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Program Target"
+            android:padding="10dp"
+            android:id="@+id/programtarget"/>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Program Descrption"
+            android:padding="10dp"
+            android:id="@+id/programdescription"/>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Program Fee"
+            android:padding="10dp"
+            android:id="@+id/programfee"/>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Program TimeDuration"
+            android:padding="10dp"
+            android:id="@+id/programTimeDuaration"/>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Program Facilitator contact number"
+            android:padding="10dp"
+            android:id="@+id/programfacilitatorcontact"/>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Program Facilitator Email"
+            android:padding="10dp"
+            android:id="@+id/programfacilitatoremail"/>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Program Preview Video"
+            android:padding="10dp"
+            android:id="@+id/programpreviewvideo"/>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Program Featured Images"
+            android:padding="10dp"
+            android:id="@+id/programfeaturedimages"/>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Program Preview Image"
+            android:padding="10dp"
+            android:id="@+id/programpreviewimage"/>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Program Chapter Title"
+            android:padding="10dp"
+            android:id="@+id/programchaptertitle"/>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Program Number Of Chapters"
+            android:padding="10dp"
+            android:layout_gravity=""
+            android:id="@+id/programchapternumbers"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/addBasicDatatoFirebase"
+            android:text="Add Basic Data to Firebase"
+            android:textColor="@color/white"
+            android:padding="10dp"
+            android:layout_gravity="center"
+            android:background="@drawable/basic_button_background"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:id="@+id/addIntermediateDatatoFirebase"
+            android:text="Add InterMediate Data to Firebase"
+            android:textColor="@color/white"
+            android:padding="10dp"
+            android:layout_gravity="center"
+            android:background="@drawable/intermediatebackground"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/addAdvanceDatatoFirebase"
+            android:text="Add Advanved Data to Firebase"
+            android:textColor="@color/white"
+            android:layout_marginTop="10dp"
+            android:padding="10dp"
+            android:layout_gravity="center"
+            android:background="@drawable/adavance_button_background"/>
+    </LinearLayout>
+</ScrollView>
+
+</LinearLayout>

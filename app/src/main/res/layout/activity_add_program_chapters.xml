@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".UI_Components.Activities.AddProgramChaptersActivity">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ProgressBar
+        android:id="@+id/chapters_progressbar"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone" />
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/addchapterslayout"
+        >
+
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Program Chapter Title"
+            android:padding="10dp"
+            android:id="@+id/programchaptertitle"/>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Program Chapter Descrption"
+            android:padding="10dp"
+            android:id="@+id/programchapterdescription"/>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Program Chapter Number"
+            android:padding="10dp"
+            android:id="@+id/programchapternumber"/>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Program Chapter VideoDuration"
+            android:padding="10dp"
+            android:id="@+id/programchapterVideoDuaration"/>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Program Video Stream Link"
+            android:padding="10dp"
+            android:id="@+id/programchaptervideostreamlink"/>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Program Chapter Audio"
+            android:padding="10dp"
+            android:id="@+id/programchapteraudio"/>
+
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/addBasicChapterDatatoFirebase"
+            android:text="Add Basic Chapter Data to Firebase"
+            android:textColor="@color/white"
+            android:padding="10dp"
+            android:layout_gravity="center"
+            android:background="@drawable/basic_button_background"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/addIntermideateChapterDatatoFirebase"
+            android:text="Add Intermediate Chapter Data to Firebase"
+            android:textColor="@color/white"
+            android:layout_marginTop="10dp"
+            android:padding="10dp"
+            android:layout_gravity="center"
+            android:background="@drawable/intermediatebackground"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/addAdvanceChapterDatatoFirebase"
+            android:text="Add Adavance Chapter Data to Firebase"
+            android:textColor="@color/white"
+            android:padding="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center"
+            android:background="@drawable/adavance_button_background"/>
+
+
+
+    </LinearLayout>
+</LinearLayout>
+</ScrollView>

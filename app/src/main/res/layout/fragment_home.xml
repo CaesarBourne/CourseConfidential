@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".UI_Components.Fragments.HomeFragment">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:orientation="vertical"
+        android:scrollbars="none">
+
+    <LinearLayout
+        android:clipToPadding="false"
+        android:layout_marginTop="55dp"
+        android:id="@+id/linearaayout"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:paddingLeft="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Featured Courses"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_marginBottom="10dp"
+            android:textSize="25sp"/>
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/featuredrecyclerView"
+            android:orientation="horizontal">
+
+        </android.support.v7.widget.RecyclerView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:text="Start Training"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <Button
+                    android:layout_width="330dp"
+                    android:layout_height="50dp"
+                    android:id="@+id/basicbutton"
+                    android:text="Basic"
+                    android:drawablePadding="10dp"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:layout_gravity="center"
+                    android:gravity=""
+                    android:padding="10dp"
+                    android:textSize="20sp"
+                    android:drawableRight="@drawable/forwardarrow"
+                    android:drawableLeft="@drawable/basic_star"
+                    android:layout_marginBottom="15dp"
+                    android:background="@drawable/basic_button_background"/>
+                <Button
+                    android:layout_width="330dp"
+                    android:layout_height="50dp"
+                    android:text="Intermediate"
+                    android:id="@+id/intermediatebutton"
+                    android:textSize="20sp"
+                    android:drawablePadding="10dp"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:layout_gravity="center"
+                    android:gravity=""
+                    android:layout_marginBottom="15dp"
+                    android:padding="10dp"
+                    android:drawableRight="@drawable/forwardarrow"
+                    android:drawableLeft="@drawable/intermediate_star"
+                    android:background="@drawable/intermediatebackground"/>
+
+                <Button
+                    android:id="@+id/advancebutton"
+                    android:layout_width="330dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/adavance_button_background"
+                    android:drawableLeft="@drawable/advanced_star"
+                    android:drawableRight="@drawable/forwardarrow"
+                    android:drawablePadding="10dp"
+                    android:gravity=""
+                    android:padding="10dp"
+                    android:text="Advance"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="20sp" />
+                <Button
+                    android:layout_width="330dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="15dp"
+                    android:text="Customer Service"
+                    android:textSize="20sp"
+                    android:id="@+id/testbutton"
+                    android:drawablePadding="10dp"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:layout_gravity="center"
+                    android:gravity=""
+                    android:padding="10dp"
+                    android:drawableRight="@drawable/forwardarrow"
+                    android:drawableLeft="@drawable/advanced_star"
+                    android:background="@drawable/customer_button_background"/>
+
+                <Button
+                    android:layout_width="330dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="15dp"
+                    android:text="Trade Finance"
+                    android:textSize="20sp"
+                    android:id="@+id/tradefinacebutton"
+                    android:drawablePadding="10dp"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:layout_gravity="center"
+                    android:gravity=""
+                    android:padding="10dp"
+                    android:drawableRight="@drawable/forwardarrow"
+                    android:drawableLeft="@drawable/advanced_star"
+                    android:background="@drawable/trade_finance_background"/>
+
+                <Button
+                    android:layout_width="330dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="15dp"
+                    android:text="Business Management"
+                    android:textSize="20sp"
+                    android:id="@+id/businessmanagementbutton"
+                    android:drawablePadding="10dp"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:layout_gravity="center"
+                    android:gravity=""
+                    android:padding="10dp"
+                    android:drawableRight="@drawable/forwardarrow"
+                    android:drawableLeft="@drawable/advanced_star"
+                    android:background="@drawable/business_management_background"/>
+                <Button
+                    android:layout_width="330dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="15dp"
+                    android:text="Boss"
+                    android:textSize="20sp"
+                    android:id="@+id/testbutton3"
+                    android:drawablePadding="10dp"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:layout_gravity="center"
+                    android:gravity=""
+                    android:padding="10dp"
+                    android:drawableRight="@drawable/forwardarrow"
+                    android:drawableLeft="@drawable/advanced_star"
+                    android:background="@drawable/adavance_button_background"/>
+
+
+
+
+            </LinearLayout>
+
+
+
+
+    </LinearLayout>
+</ScrollView>
+
+</FrameLayout>
