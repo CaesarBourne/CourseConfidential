@@ -138,6 +138,39 @@
             android:padding="10dp"
             android:layout_gravity="center"
             android:background="@drawable/adavance_button_background"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/addCustomerServiceDatatoFirebase"
+            android:text="Add CustomerService Data to Firebase"
+            android:textColor="@color/white"
+            android:layout_marginTop="10dp"
+            android:padding="10dp"
+            android:layout_gravity="center"
+            android:background="@drawable/customer_button_background"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/addTradeFinanceDatatoFirebase"
+            android:text="Add TradeFinance Data to Firebase"
+            android:textColor="@color/white"
+            android:layout_marginTop="10dp"
+            android:padding="10dp"
+            android:layout_gravity="center"
+            android:background="@drawable/trade_finance_background"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/addBusinessManagementDatatoFirebase"
+            android:text="Add BusinessManage Data to Firebase"
+            android:textColor="@color/white"
+            android:layout_marginTop="10dp"
+            android:padding="10dp"
+            android:layout_gravity="center"
+            android:background="@drawable/business_management_background"/>
     </LinearLayout>
 </ScrollView>
 

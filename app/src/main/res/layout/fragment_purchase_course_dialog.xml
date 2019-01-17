@@ -7,19 +7,24 @@
     tools:context=".UI_Components.Fragments.PurchaseCourseDialogFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <android.support.constraint.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="20dp"
+
+        >
 
         <TextView
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="64dp"
-            android:layout_marginEnd="41dp"
+            android:layout_gravity="center"
+            android:gravity="center"
             android:text="Purchase this Course?"
             android:textColor="@color/black"
             android:textSize="25sp"
+
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -30,13 +35,12 @@
             android:id="@+id/coursePrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="150dp"
             android:layout_marginTop="12dp"
-            android:layout_marginEnd="148dp"
             android:background="@color/bluenav"
             android:gravity="center"
             android:padding="5dp"
             android:text="$52.25"
+            android:layout_gravity="center"
             android:textColor="@color/white"
             android:textSize="17sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -44,34 +48,38 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
-        <Button
-            android:id="@+id/cancelButton"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="64dp"
+            android:gravity="center"
             android:layout_marginTop="28dp"
-            android:layout_marginEnd="15dp"
-            android:background="@drawable/previous_chapter_background"
-            android:text="Cancel"
-            android:textColor="@color/bluenav"
-            app:layout_constraintEnd_toStartOf="@+id/purchaseButton"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/coursePrice" />
+            android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/purchaseButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="28dp"
-            android:layout_marginEnd="41dp"
-            android:background="@drawable/purchase_coursebackground"
-            android:text="Purchase"
-            android:textColor="@color/white"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/cancelButton"
-            app:layout_constraintTop_toBottomOf="@+id/coursePrice" />
+            <Button
+                android:id="@+id/cancelButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/previous_chapter_background"
+                android:text="Cancel"
+                android:textColor="@color/bluenav"
+                app:layout_constraintEnd_toStartOf="@+id/purchaseButton"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/coursePrice" />
 
-    </android.support.constraint.ConstraintLayout>
+            <Button
+                android:id="@+id/purchaseButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/purchase_coursebackground"
+                android:text="Purchase"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/cancelButton"
+                app:layout_constraintTop_toBottomOf="@+id/coursePrice" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </FrameLayout>

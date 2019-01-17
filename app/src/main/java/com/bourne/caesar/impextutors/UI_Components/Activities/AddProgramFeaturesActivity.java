@@ -35,7 +35,8 @@ public class AddProgramFeaturesActivity extends AppCompatActivity {
     EditText pogramChapterTitle;
     View mProgressView;
     LinearLayout aaddDataLayout;
-    Button sendBasicDetailsToFirebase, sendIntermediateDetailsToFirebase, sendAdvanceDetailsToFirebase;
+    Button sendBasicDetailsToFirebase, sendIntermediateDetailsToFirebase, sendAdvanceDetailsToFirebase,sendCustomerServiceDetailsToFirebase,
+            sendTradeFinanaceDetailsToFirebase,sendBusinessManagementDetailsToFirebase;
 
     String programIdString, programTitleString, programTargetString, programDescriptionString, programFeeString,programTimeaDurationString,
             programFacilitatorContactNumberString, programFacilitatorEmailString, programPreviewVideoString, programImagePreviewString,
@@ -68,6 +69,26 @@ public class AddProgramFeaturesActivity extends AppCompatActivity {
                 attemptUploadToFirebase(Constants.IMPEX_ADVANCE);
             }
         });
+        sendCustomerServiceDetailsToFirebase.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                attemptUploadToFirebase(Constants.IMPEX_CUSTOMER_SERVICE);
+            }
+        });
+
+        sendTradeFinanaceDetailsToFirebase.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                attemptUploadToFirebase(Constants.IMPEX_TRADE_FINANCE);
+            }
+        });
+
+        sendBusinessManagementDetailsToFirebase.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                attemptUploadToFirebase(Constants.IMPEX_BUSINESS_MANAGEMENT);
+            }
+        });
     }
 
     private void initialization() {
@@ -76,6 +97,10 @@ public class AddProgramFeaturesActivity extends AppCompatActivity {
         sendBasicDetailsToFirebase = findViewById(R.id.addBasicDatatoFirebase);
         sendIntermediateDetailsToFirebase = findViewById(R.id.addIntermediateDatatoFirebase);
         sendAdvanceDetailsToFirebase = findViewById(R.id.addAdvanceDatatoFirebase);
+        sendCustomerServiceDetailsToFirebase = findViewById(R.id.addCustomerServiceDatatoFirebase);
+        sendTradeFinanaceDetailsToFirebase = findViewById(R.id.addTradeFinanceDatatoFirebase);
+        sendBusinessManagementDetailsToFirebase = findViewById(R.id.addBusinessManagementDatatoFirebase);
+
         //progressbar
         mProgressView = findViewById(R.id.login_progress);
         //linearlayout

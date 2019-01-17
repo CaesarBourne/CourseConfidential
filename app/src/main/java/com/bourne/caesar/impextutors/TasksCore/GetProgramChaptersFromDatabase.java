@@ -11,6 +11,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -29,7 +30,7 @@ public class GetProgramChaptersFromDatabase {
                 .addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                List<CourseChaptersData> chapterlist = new ArrayList<>();
+               ArrayList<CourseChaptersData> chapterlist = new ArrayList<>();
                 Iterator<DataSnapshot> programchapteriterator = dataSnapshot.getChildren().iterator();
                 while (programchapteriterator.hasNext()){
                     DataSnapshot dataSnapshotChild = programchapteriterator.next();

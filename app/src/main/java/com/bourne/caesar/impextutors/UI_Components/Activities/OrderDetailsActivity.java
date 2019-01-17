@@ -25,26 +25,29 @@ public class OrderDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_details);
         initialization();
-        double nairaToDollarRate = 0.00278;
+        double nairaToDollarRate = 1;
         if (getIntent().getExtras() != null){
             int coursePosition = getIntent().getExtras().getInt(COURSE_POSITION);
             courseImageView.setImageResource(FixedData.CourseImages[coursePosition]);
 
-            String courseTitleString = getIntent().getExtras().getString(COURSE_TITLE);
+            final String courseTitleString = getIntent().getExtras().getString(COURSE_TITLE);
             courseTitleView.setText(courseTitleString);
 
-            String coursePriceString = getIntent().getExtras().getString(COURSE_PRICE);
+            final String coursePriceString = getIntent().getExtras().getString(COURSE_PRICE);
             courseInitialPriceView.setText(coursePriceString);
             double coursePriceDigit = Double.valueOf(coursePriceString.trim());
             final double totalCoursePrice = coursePriceDigit + nairaToDollarRate;
+            final String totalPriceString = String.valueOf(totalCoursePrice);
             goToCheckoutPay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(OrderDetailsActivity.this, CheckoutPayActiviy.class);
-                    intent.putExtra(CheckoutPayActiviy.COURSE_CHECKPUT_PRICE, totalCoursePrice);
+                    intent.putExtra(CheckoutPayActiviy.COURSE_CHECKPUT_PRICE,coursePriceString);
+                    intent.putExtra(CheckoutPayActiviy.COURSE_ID, courseTitleString);
                     startActivity(intent);
                 }
             });
+
         }
 
     }

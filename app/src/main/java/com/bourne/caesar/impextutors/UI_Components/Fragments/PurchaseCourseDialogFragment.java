@@ -23,12 +23,13 @@ import com.bourne.caesar.impextutors.UI_Components.Activities.ProgramFeaturesAct
 public class PurchaseCourseDialogFragment extends DialogFragment {
 
     public static final String COURSE_PRICE = "price";
+    public static final String COURSE_TITLE = "title";
     Button purchaseButton, cancelButton;
     TextView coursePriceView;
     public PurchaseCourseDialogFragment() {
         // Required empty public constructor
     }
-    public static PurchaseCourseDialogFragment newDialogInstance(String  courcePrice){
+    public static PurchaseCourseDialogFragment newDialogInstance(String  courcePrice, String courseTitle){
         Bundle arguments = new Bundle();
         arguments.putString(COURSE_PRICE, courcePrice);
         PurchaseCourseDialogFragment purchaseCourseDialogFragmentInstance = new PurchaseCourseDialogFragment();
@@ -48,6 +49,7 @@ public class PurchaseCourseDialogFragment extends DialogFragment {
         cancelButton = view.findViewById(R.id.cancelButton);
         coursePriceView = view.findViewById(R.id.coursePrice);
         final String coursePriceString  = getArguments().getString(COURSE_PRICE);
+        final String courseTitleString  = getArguments().getString(COURSE_TITLE);
         coursePriceView.setText(coursePriceString);
 
 
@@ -56,14 +58,14 @@ public class PurchaseCourseDialogFragment extends DialogFragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), CheckoutPayActiviy.class);
                 intent.putExtra(CheckoutPayActiviy.COURSE_CHECKPUT_PRICE, coursePriceString);
+                intent.putExtra(CheckoutPayActiviy.COURSE_ID, courseTitleString);
                 startActivity(intent);
             }
         });
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), MainActivity.class);
-                startActivity(intent);
+                getDialog().dismiss();
             }
         });
         return view;

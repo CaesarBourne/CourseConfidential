@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bourne.caesar.impextutors.R;
+import com.bourne.caesar.impextutors.Utilities.SharedPreferencesStorage;
 import com.google.firebase.auth.FirebaseAuth;
 
 import co.paystack.android.Paystack;
@@ -37,10 +38,12 @@ import co.paystack.android.model.Charge;
 public class CheckoutPayActiviy extends AppCompatActivity {
 
     public static final String COURSE_CHECKPUT_PRICE = "payprice";
+    public static final String COURSE_ID = "courseid";
+    private  String courseTitleString = "Course";
     private Button payButton;
     private Card myCard;
     private Charge charge;
-    private AutoCompleteTextView userNameField, emailField, cityField, stateField, nameOnCardField;
+    private AutoCompleteTextView userNameField, emailField, nameOnCardField;
     private EditText  cardNumberField, expiryMonthField, expiryYearField, cvvField;
     String email, cardNumber,  cvv;
     TextView courseAmountField;
@@ -70,12 +73,15 @@ public class CheckoutPayActiviy extends AppCompatActivity {
         String courseAmountString;
         if (getIntent().getExtras() != null){
             courseAmountString = getIntent().getExtras().getString(COURSE_CHECKPUT_PRICE);
+            courseTitleString = getIntent().getExtras().getString(COURSE_ID);
             courseAmountField.setText(courseAmountString);
         }
         authenticatedUser = FirebaseAuth.getInstance();
         String usernameString = authenticatedUser.getInstance().getCurrentUser().getDisplayName();
         nameOnCardField.setText(usernameString);
         userNameField.setText(usernameString);
+        String userEmail = authenticatedUser.getCurrentUser().getEmail();
+        emailField.setText(userEmail);
 
         payButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -194,6 +200,7 @@ public class CheckoutPayActiviy extends AppCompatActivity {
 //                    statusListenerChild.status(paymentReference, "your order is been processed...");
 //                    HomeFragment.startHomefragment(TestPayStack.this);
 //                }
+                SharedPreferencesStorage.getSharedPrefInstance(CheckoutPayActiviy.this).saveCourseID( courseTitleString);
                 Intent intent = new Intent(CheckoutPayActiviy.this, PaaymentSuccessfulActivity.class);
                 intent.putExtra(PaaymentSuccessfulActivity.TRANSACTION_ID, "Your order would be delivered shortly thanks for patronage...");
 
@@ -248,8 +255,7 @@ public class CheckoutPayActiviy extends AppCompatActivity {
         courseAmountField = findViewById(R.id.checkoutPrice);
         payButton = findViewById(R.id.paybutton);
         userNameField = findViewById(R.id.nameField);
-        cityField =findViewById(R.id.cityfIELD);
-        stateField = findViewById(R.id.stateField);
+
         nameOnCardField = findViewById(R.id.nameOnCardField);
         cardNumberField = findViewById(R.id.cardnumberField);
         expiryMonthField = findViewById(R.id.cardmonthexpiry);
@@ -259,6 +265,7 @@ public class CheckoutPayActiviy extends AppCompatActivity {
         visaCardView = findViewById(R.id.visacardimage);
         masterCardView = findViewById(R.id.mastercardimage);
         verveCardView = findViewById(R.id.vervecardimage);
+
     }
 
     private boolean validateForm() {
@@ -272,13 +279,13 @@ public class CheckoutPayActiviy extends AppCompatActivity {
             emailField.setError(null);
         }
 
-        String city = cityField.getText().toString();
-        if (TextUtils.isEmpty(city)) {
-            cityField.setError("You must input email");
-            valid = false;
-        } else {
-            cityField.setError(null);
-        }
+//        String city = cityField.getText().toString();
+//        if (TextUtils.isEmpty(city)) {
+//            cityField.setError("You must input email");
+//            valid = false;
+//        } else {
+//            cityField.setError(null);
+//        }
         String cardNumber = cardNumberField.getText().toString();
         if (TextUtils.isEmpty(cardNumber)) {
             cardNumberField.setError("card number required");

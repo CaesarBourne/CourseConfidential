@@ -27,7 +27,7 @@ public class HomeFragment extends Fragment {
     ArrayList<String> coursetitlestring, coursepricestring;
     ArrayList<Integer> couraseimages;
     RecyclerView featuredCoursesrecyclerView;
-    Button basicButton, intermediateButton, advanceButton;
+    Button basicButton, intermediateButton, advanceButton, customerServiceButton, tradefinacebutton, businessmanagementbutton;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -40,13 +40,8 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        basicButton = view.findViewById(R.id.basicbutton);
-        intermediateButton = view.findViewById(R.id.intermediatebutton);
-        advanceButton = view.findViewById(R.id.advancebutton);
-        featuredCoursesrecyclerView = view.findViewById(R.id.featuredrecyclerView);
-        coursetitlestring = new ArrayList<>();
-        couraseimages = new ArrayList<>();
-        coursepricestring = new ArrayList<>();
+        initialization(view);
+
         featuredCoursesrecyclerView.setHasFixedSize(true);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
@@ -71,6 +66,32 @@ public class HomeFragment extends Fragment {
             }
         });
         featuredCoursesrecyclerView.setAdapter(featuredProgramsHorizontaalAdapter);
+
+        viewsAction();
+
+        return view;
+    }
+
+
+
+    private void initialization(View view) {
+        basicButton = view.findViewById(R.id.basicbutton);
+        intermediateButton = view.findViewById(R.id.intermediatebutton);
+        advanceButton = view.findViewById(R.id.advancebutton);
+        customerServiceButton = view.findViewById(R.id.customerServiceButton);
+        tradefinacebutton= view.findViewById(R.id.tradefinacebutton);
+        businessmanagementbutton = view.findViewById(R.id.businessmanagementbutton);
+
+        featuredCoursesrecyclerView = view.findViewById(R.id.featuredrecyclerView);
+        coursetitlestring = new ArrayList<>();
+        couraseimages = new ArrayList<>();
+        coursepricestring = new ArrayList<>();
+    }
+
+
+
+
+    private void viewsAction() {
         basicButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,16 +119,32 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        return view;
-    }
+        customerServiceButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), ProgramFeaturesActivity.class);
+                intent.putExtra(ProgramFeaturesActivity.PROGRAM_ID, Constants.IMPEX_CUSTOMER_SERVICE);
+                startActivity(intent);
+            }
+        });
 
-    private void initialization() {
+        tradefinacebutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), ProgramFeaturesActivity.class);
+                intent.putExtra(ProgramFeaturesActivity.PROGRAM_ID, Constants.IMPEX_TRADE_FINANCE);
+                startActivity(intent);
+            }
+        });
 
-    }
-
-    private void bindViews() {
-
-
+        businessmanagementbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), ProgramFeaturesActivity.class);
+                intent.putExtra(ProgramFeaturesActivity.PROGRAM_ID, Constants.IMPEX_BUSINESS_MANAGEMENT);
+                startActivity(intent);
+            }
+        });
     }
 
 

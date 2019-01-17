@@ -35,7 +35,8 @@ public class AddProgramChaptersActivity extends AppCompatActivity {
 
     AddProgramChaptersToDatabase addProgramChaptersToDatabase;
 
-    Button sendBasicChapetrDetailsToFirebase, sendIntermediateChapetrDetailsToFirebase, sendAdvancedChapetrDetailsToFirebase;
+    Button sendBasicChapetrDetailsToFirebase, sendIntermediateChapetrDetailsToFirebase, sendAdvancedChapetrDetailsToFirebase,
+            sendCustomerChapterDetailsToFirebase, sendTradeFinanceChapterDetailsToFirebase, sendBusinessManagementChapterDetailsToFirebase;
     ProgressBar mProgressView;
     LinearLayout linearLayoutview;
 
@@ -49,7 +50,7 @@ public class AddProgramChaptersActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String chapterID = String.valueOf(System.currentTimeMillis());
-                attemptUploadToFirebase(chapterID, Constants.IMPEX_BASIC);
+                attemptUploadToFirebase( Constants.IMPEX_BASIC);
             }
         });
 
@@ -57,7 +58,7 @@ public class AddProgramChaptersActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String chapterID = String.valueOf(System.currentTimeMillis());
-                attemptUploadToFirebase(chapterID, Constants.IMPEX_INTERMIDIATE);
+                attemptUploadToFirebase( Constants.IMPEX_INTERMIDIATE);
             }
         });
 
@@ -65,10 +66,31 @@ public class AddProgramChaptersActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String chapterID = String.valueOf(System.currentTimeMillis());
-                attemptUploadToFirebase(chapterID, Constants.IMPEX_ADVANCE);
+                attemptUploadToFirebase(Constants.IMPEX_ADVANCE);
             }
         });
 
+        sendCustomerChapterDetailsToFirebase.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String chapterID = String.valueOf(System.currentTimeMillis());
+                attemptUploadToFirebase( Constants.IMPEX_CUSTOMER_SERVICE);
+            }
+        });
+
+        sendTradeFinanceChapterDetailsToFirebase.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                attemptUploadToFirebase( Constants.IMPEX_TRADE_FINANCE);
+            }
+        });
+
+        sendBusinessManagementChapterDetailsToFirebase.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                attemptUploadToFirebase( Constants.IMPEX_BUSINESS_MANAGEMENT);
+            }
+        });
     }
 
     private void initialization() {
@@ -77,6 +99,9 @@ public class AddProgramChaptersActivity extends AppCompatActivity {
         sendBasicChapetrDetailsToFirebase = findViewById(R.id.addBasicChapterDatatoFirebase);
         sendIntermediateChapetrDetailsToFirebase = findViewById(R.id.addIntermideateChapterDatatoFirebase);
         sendAdvancedChapetrDetailsToFirebase = findViewById(R.id.addAdvanceChapterDatatoFirebase);
+        sendCustomerChapterDetailsToFirebase = findViewById(R.id.addCustomerServiceChaptertoFirebase);
+        sendTradeFinanceChapterDetailsToFirebase = findViewById(R.id.addTradeFinanceChaptertoFirebase);
+        sendBusinessManagementChapterDetailsToFirebase = findViewById(R.id.addBusinessManagementChaptertoFirebase);
 
         linearLayoutview = findViewById(R.id.addchapterslayout);
         mProgressView = findViewById(R.id.chapters_progressbar);
@@ -90,7 +115,7 @@ public class AddProgramChaptersActivity extends AppCompatActivity {
 
     }
 
-    public boolean attemptUploadToFirebase(String chapterID, String ProgramId) {
+    public boolean attemptUploadToFirebase( String ProgramId) {
         boolean valid = true;
 
 
@@ -174,7 +199,7 @@ public class AddProgramChaptersActivity extends AppCompatActivity {
                     programChapterDescriptionString,  programChapterNumberString, programChapterVideoDurationString,
                      programChapterVideoStreamLinkString, programchapterAudioString
                     );
-            addProgramChaptersToDatabase.AddProgamChapters(chapterID, courseChaptersData, ProgramId);
+            addProgramChaptersToDatabase.AddProgamChapters(programchapterAudioString, courseChaptersData, ProgramId);
             showProgress(true);
 
         }

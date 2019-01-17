@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.bourne.caesar.impextutors.UI_Components.Activities.AddProgramChaptersActivity;
 import com.bourne.caesar.impextutors.UI_Components.Activities.AddProgramFeaturesActivity;
 import com.bourne.caesar.impextutors.UI_Components.Activities.LoginActivity;
+import com.bourne.caesar.impextutors.UI_Components.Activities.TestDownload;
 import com.bourne.caesar.impextutors.UI_Components.Fragments.CoursesFragment;
 import com.bourne.caesar.impextutors.UI_Components.Fragments.HomeFragment;
 import com.bourne.caesar.impextutors.UI_Components.Fragments.MyAccountFragment;
@@ -77,25 +78,25 @@ public class MainActivity extends AppCompatActivity {
                         intentradopodcasts.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intentradopodcasts);
                         return true;
-                    case R.id.nav_ebooks:
-                        Intent intentebooks = new Intent(MainActivity.this, MainActivity.class);
-                        intentebooks.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(intentebooks);
-                        return true;
+//                    case R.id.nav_ebooks:
+//                        Intent intentebooks = new Intent(MainActivity.this, MainActivity.class);
+//                        intentebooks.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                        startActivity(intentebooks);
+//                        return true;
                     case R.id.nav_importexport:
                         Intent intentimportexport = new Intent(MainActivity.this, MainActivity.class);
                         intentimportexport.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intentimportexport);
                         return true;
 
-
-                    case R.id.nav_customerservice:
-                        Intent intentcustomerservice = new Intent(MainActivity.this, MainActivity.class);
-                        intentcustomerservice.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(intentcustomerservice);
-                        return true;
+//
+//                    case R.id.nav_customerservice:
+//                        Intent intentcustomerservice = new Intent(MainActivity.this, MainActivity.class);
+//                        intentcustomerservice.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                        startActivity(intentcustomerservice);
+//                        return true;
                     case R.id.nav_invitefriends:
-                        Intent intentinvitefriends = new Intent(MainActivity.this, MainActivity.class);
+                        Intent intentinvitefriends = new Intent(MainActivity.this, TestDownload.class);
                         intentinvitefriends.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intentinvitefriends);
                         return true;
@@ -228,6 +229,12 @@ public class MainActivity extends AppCompatActivity {
             FirebaseAuth.getInstance().signOut();
 
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        // Disable going back to the MainActivity
+        moveTaskToBack(true);
     }
 
 }

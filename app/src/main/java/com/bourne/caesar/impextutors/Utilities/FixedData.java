@@ -13,8 +13,9 @@ public class FixedData {
     };
 
     public static int[] CourseImages = {R.drawable.certificatetrade, R.drawable.certificatebasic, R.drawable.certificateintermedeate,
-            R.drawable.certificatetrade
+            R.drawable.certificatetrade, R.drawable.certificatebasic, R.drawable.certificateintermedeate
     };
-    public static String[] CourseID = {Constants.IMPEX_BASIC, Constants.IMPEX_INTERMIDIATE, Constants.IMPEX_ADVANCE, Constants.IMPEX_BASIC
+    public static String[] CourseID = {Constants.IMPEX_BASIC, Constants.IMPEX_INTERMIDIATE, Constants.IMPEX_ADVANCE,
+            Constants.IMPEX_CUSTOMER_SERVICE,Constants.IMPEX_TRADE_FINANCE, Constants.IMPEX_BUSINESS_MANAGEMENT
     };
 }

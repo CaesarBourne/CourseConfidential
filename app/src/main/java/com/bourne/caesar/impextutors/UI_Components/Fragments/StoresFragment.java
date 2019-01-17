@@ -71,7 +71,7 @@ public class StoresFragment extends Fragment {
     }
 
     public void getProgramFeaturesSuccess(final List<CourseFeaturesData> courseFeaturesData){
-        storesFragmentAdapter = new StoresFragmentAdapter(courseFeaturesData);
+        storesFragmentAdapter = new StoresFragmentAdapter(courseFeaturesData, getActivity());
         storesFragmentAdapter.setListener(new StoresFragmentAdapter.Listener() {
             @Override
             public void onCourseClicked(int position) {

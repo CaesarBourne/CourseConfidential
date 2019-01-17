@@ -1,5 +1,6 @@
 package com.bourne.caesar.impextutors.Adapters;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -10,15 +11,18 @@ import android.widget.TextView;
 
 import com.bourne.caesar.impextutors.Models.CourseFeaturesData;
 import com.bourne.caesar.impextutors.R;
+import com.bourne.caesar.impextutors.Utilities.SharedPreferencesStorage;
 
 import java.util.List;
 
 public class StoresFragmentAdapter extends RecyclerView.Adapter<StoresFragmentAdapter.StoresFragmentViewHolder> {
     List<CourseFeaturesData> courseFeaturesAdapterListInside;
     Listener listener;
+    Context context;
 
-    public StoresFragmentAdapter(List<CourseFeaturesData> courseFeaturesAdapterList) {
-        this.courseFeaturesAdapterListInside = courseFeaturesAdapterList;
+    public StoresFragmentAdapter(List<CourseFeaturesData> courseFeaturesAdapterListInside, Context context) {
+        this.courseFeaturesAdapterListInside = courseFeaturesAdapterListInside;
+        this.context = context;
     }
 
     public interface Listener{
@@ -26,6 +30,7 @@ public class StoresFragmentAdapter extends RecyclerView.Adapter<StoresFragmentAd
     }
 
     public void setListener(Listener listener) {
+
         this.listener = listener;
     }
 
@@ -40,8 +45,19 @@ public class StoresFragmentAdapter extends RecyclerView.Adapter<StoresFragmentAd
     @Override
     public void onBindViewHolder(@NonNull StoresFragmentViewHolder storesFragmentViewHolder, final int position) {
         CourseFeaturesData courseFeaturesData = courseFeaturesAdapterListInside.get(position);
-        storesFragmentViewHolder.courseTitleView.setText(courseFeaturesData.getProgramTitle());
-        storesFragmentViewHolder.coursePriceView.setText(courseFeaturesData.getProgramfee());
+
+
+        if (SharedPreferencesStorage.getSharedPrefInstance(context).getCoursePayStatus(courseFeaturesData.getProgramTitle()) ==
+                courseFeaturesData.getProgramTitle()){
+            storesFragmentViewHolder.coursePriceView.setText("Purchased");
+            storesFragmentViewHolder.courseTitleView.setText(courseFeaturesData.getProgramTitle());
+            storesFragmentViewHolder.courseTitleView.setBackgroundColor( context.getResources().getColor(R.color.light_green_A700));
+            storesFragmentViewHolder.coursePriceView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.purchase_success,0,0, 0);
+        }
+        else{
+            storesFragmentViewHolder.courseTitleView.setText(courseFeaturesData.getProgramTitle());
+            storesFragmentViewHolder.coursePriceView.setText(courseFeaturesData.getProgramfee());
+        }
 
         storesFragmentViewHolder.storesCardView.setOnClickListener(new View.OnClickListener() {
             @Override

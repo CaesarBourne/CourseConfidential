@@ -12,10 +12,10 @@
             android:id="@+id/nav_radiopodcast"
             android:icon="@drawable/menuradio"
             android:title="Radio Podcast" />
-        <item
-            android:id="@+id/nav_ebooks"
-            android:icon="@drawable/menuebooks"
-            android:title="Slideshow" />
+        <!--<item-->
+            <!--android:id="@+id/nav_ebooks"-->
+            <!--android:icon="@drawable/menuebooks"-->
+            <!--android:title="Slideshow" />-->
         <item
             android:id="@+id/nav_newsletters"
             android:icon="@drawable/menunewsletters"
@@ -28,10 +28,10 @@
 
     <item android:title="">
         <menu>
-            <item
-                android:id="@+id/nav_customerservice"
-                android:icon="@drawable/menucustomer"
-                android:title="Customer Service" />
+            <!--<item-->
+                <!--android:id="@+id/nav_customerservice"-->
+                <!--android:icon="@drawable/menucustomer"-->
+                <!--android:title="Customer Service" />-->
             <item
                 android:id="@+id/nav_invitefriends"
                 android:icon="@drawable/menuinvitefriends"

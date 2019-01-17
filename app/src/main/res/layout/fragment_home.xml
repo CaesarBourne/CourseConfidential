@@ -106,7 +106,7 @@
                     android:layout_marginTop="15dp"
                     android:text="Customer Service"
                     android:textSize="20sp"
-                    android:id="@+id/testbutton"
+                    android:id="@+id/customerServiceButton"
                     android:drawablePadding="10dp"
                     android:textAllCaps="false"
                     android:textColor="@color/white"

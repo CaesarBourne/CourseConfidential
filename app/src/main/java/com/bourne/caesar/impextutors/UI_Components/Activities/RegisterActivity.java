@@ -267,7 +267,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                .setDisplayName("Jane Q. User")
+                .setDisplayName(username)
                 .setPhotoUri(Uri.parse("https://example.com/jane-q-user/profile.jpg"))
                 .build();
 
