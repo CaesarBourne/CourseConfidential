@@ -5,7 +5,9 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -21,6 +23,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -33,13 +36,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import com.bourne.caesar.impextutors.MainActivity;
 import com.bourne.caesar.impextutors.R;
-import com.bourne.caesar.impextutors.TasksCore.LoginCore;
+import com.bourne.caesar.impextutors.FirebaseTasksCore.LoginCore;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -50,10 +55,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
@@ -67,6 +72,8 @@ import static android.Manifest.permission.READ_CONTACTS;
  * A login screen that offers login via email/password.
  */
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
+
+
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -98,6 +105,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private GoogleSignInClient mGoogleSignInClient;
     private Button facebookCustomButton, googleCustomButton;
     LoginCore loginCore;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     public static void startIntent(Context context){
         Intent intent = new Intent(context, LoginActivity.class);
@@ -117,10 +125,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        // Initialize Facebook Login button
+        mCallbackManager = CallbackManager.Factory.create();
         initialization();
         mAuth = FirebaseAuth.getInstance();
 
         // Set the dimensions of the sign-in button.
+
+        // Obtain the FirebaseAnalytics instance.
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
 
         googleCustomButton.setOnClickListener(new OnClickListener() {
@@ -131,8 +144,22 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         });
 
 
-        // Initialize Facebook Login button
-        mCallbackManager = CallbackManager.Factory.create();
+
+
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo(
+                    "com.bourne.caesar.impextutors",
+                    PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                Log.d("KeyHash", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+
+        } catch (NoSuchAlgorithmException e) {
+
+        }
 
         facebookCustomButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -282,8 +309,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 //                updateUIGoogle(account);
 //            }
 
-                FirebaseUser currentUser = mAuth.getCurrentUser();
-                updateUI(currentUser);
+            FirebaseUser currentUser = mAuth.getCurrentUser();
+            updateUI(currentUser);
 
         }
 
@@ -298,9 +325,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     private void handleFacebookAccessToken(AccessToken token) {
-        Log.d(TAG, "handleFacebookAccessToken:" + token);
+        Log.d(TAG, "handleFacebookAccessToken" + token);
 
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
+        Log.d(TAG, "Credentials  " + credential.toString()+ " token: "+ token.getToken());
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -325,11 +353,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     private void updateUI(FirebaseUser user) {
-        Toast.makeText(LoginActivity.this, "Welcomeuser" + user.getDisplayName()+ " , " +
-                user.getEmail(), Toast.LENGTH_LONG).show();
-        Intent intent = new Intent(LoginActivity.this,OnboardingActivity.class);
-        startActivity(intent);
-
+        showProgress(false);
+        if (user != null) {
+            Toast.makeText(LoginActivity.this, "Welcomeuser" + user.getDisplayName() + " , " +
+                    user.getEmail(), Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(LoginActivity.this, OnboardingActivity.class);
+            startActivity(intent);
+        }
     }
 
 
@@ -433,6 +463,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     public void initialization(){
         loginCore = new LoginCore(this);
         facebookCustomButton = findViewById(R.id.facebookbutton);
+
         googleCustomButton = findViewById(R.id.googecustombuton);
     }
     public void loginUserSuccesful(){

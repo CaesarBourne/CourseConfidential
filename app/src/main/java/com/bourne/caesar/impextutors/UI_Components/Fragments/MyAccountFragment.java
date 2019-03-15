@@ -8,24 +8,24 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bourne.caesar.impextutors.R;
-import com.bourne.caesar.impextutors.TasksCore.ChangeUserPassword;
-import com.bourne.caesar.impextutors.UI_Components.Activities.CheckoutPayActiviy;
+import com.bourne.caesar.impextutors.FirebaseTasksCore.ChangeUserPassword;
+import com.bourne.caesar.impextutors.UI_Components.Activities.MyPurchasesActivity;
 import com.bourne.caesar.impextutors.Utilities.Constants;
 import com.bourne.caesar.impextutors.Utilities.SharedPreferencesStorage;
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
-
-import javax.xml.transform.Result;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -37,13 +37,16 @@ import static android.app.Activity.RESULT_OK;
 public class MyAccountFragment extends Fragment {
 
     private ChangeUserPassword changeUserPassword;
-    private Button changePasswordView, editProfileView;
+    private Button changePasswordView, editProfileView, paidCoursesView, setCurrencyButton;
     CircleImageView userProfileView;
     private AlertDialog.Builder changePasswordDialog;
     private static final int GALLERY_IMAGE_REQUEST_CODE = 1;
     private FirebaseAuth authenticatedUser;
     private TextView usernameView;
     private TextView userEmailView;
+    private RadioGroup radioGroup;
+    private RadioButton nairaButton,dollarButton;
+
     public MyAccountFragment() {
         // Required empty public constructor
     }
@@ -80,10 +83,53 @@ public class MyAccountFragment extends Fragment {
         editProfileView = view.findViewById(R.id.editprofileView);
         usernameView = view.findViewById(R.id.usernameView);
         userEmailView = view.findViewById(R.id.userEmailView);
+        radioGroup = view.findViewById(R.id.radioGroup);
+        nairaButton = view.findViewById(R.id.nairaPay);
+        dollarButton = view.findViewById(R.id.dollarPay);
+        paidCoursesView = view.findViewById(R.id.myPaidCoursesView);
+        setCurrencyButton = view.findViewById(R.id.setCurrencyView);
     }
+
+//    public void onRadioButtonClicked(View view){
+//        int id  = radioGroup.getCheckedRadioButtonId();
+//        switch (id){
+//            case R.id.nairaPay:
+//                SharedPreferencesStorage.getSharedPrefInstance(getActivity()).saveCurrency( Constants.IMPEX_NAIRA);
+//                break;
+//            case R.id.dollarPay:
+//                SharedPreferencesStorage.getSharedPrefInstance(getActivity()).saveCurrency( Constants.IMPEX_DOLLAR);
+//                break;
+//        }
+//    }
+    public static boolean hasUniqueChars( String str ) {
+        boolean [] booleancharacters= new boolean[256];
+        for(int i=0; i< str.length(); i++){
+
+            int characterstate = str.charAt(i);
+            if(booleancharacters[characterstate]){
+                return false;
+            }
+            booleancharacters[characterstate] = true;
+        }
+        return true;
+    }
+
+
+static int shiftedDiff(String first, String second){
+    int n=0;
+    if (first.length() == second.length() && (first+first).contains(second) ){
+        while (!TextUtils.equals(first, second)){
+            first = first.charAt(first.length() - 1) + first.substring(0, first.length() -1);
+            n = +1;
+        }
+    }
+
+    return n;
+}
     private void viewsAction() {
         String username = authenticatedUser.getCurrentUser().getDisplayName();
         String userEmail = authenticatedUser.getCurrentUser().getEmail();
+
         usernameView.setText(username);
         userEmailView.setText(userEmail);
         changePasswordView.setOnClickListener(new View.OnClickListener() {
@@ -102,6 +148,45 @@ public class MyAccountFragment extends Fragment {
                 startActivityForResult(intent, GALLERY_IMAGE_REQUEST_CODE);
 
 
+            }
+        });
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId){
+                    case R.id.nairaPay:
+                        SharedPreferencesStorage.getSharedPrefInstance(getActivity()).saveCurrency( Constants.IMPEX_NAIRA);
+                        break;
+                    case R.id.dollarPay:
+                        SharedPreferencesStorage.getSharedPrefInstance(getActivity()).saveCurrency( Constants.IMPEX_DOLLAR);
+                        break;
+                }
+            }
+        });
+        if ((SharedPreferencesStorage.getSharedPrefInstance(getActivity()).getCurrency() == Constants.IMPEX_DOLLAR)){
+            dollarButton.setChecked(true);
+
+        }
+        else {
+            nairaButton.setChecked(true);
+        }
+
+        paidCoursesView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), MyPurchasesActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        setCurrencyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (radioGroup.getVisibility() == View.VISIBLE ){
+                    radioGroup.setVisibility(View.GONE);
+                }else {
+                    radioGroup.setVisibility(View.VISIBLE);
+                }
             }
         });
     }

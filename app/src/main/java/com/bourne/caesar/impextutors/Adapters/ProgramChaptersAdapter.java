@@ -20,7 +20,7 @@ import java.util.zip.Inflater;
 
 public class ProgramChaptersAdapter extends RecyclerView.Adapter<ProgramChaptersAdapter.ProgramChaptersViewHolder> {
 
-    List<CourseChaptersData> courseChaptersDataList ;
+    ArrayList<CourseChaptersData> courseChaptersDataList ;
     Context context;
     Listener listenerChild;
 
@@ -33,7 +33,7 @@ public class ProgramChaptersAdapter extends RecyclerView.Adapter<ProgramChapters
         this.listenerChild = listenerChild;
     }
 
-    public ProgramChaptersAdapter(List<CourseChaptersData> courseChaptersDataList, Context context) {
+    public ProgramChaptersAdapter(ArrayList<CourseChaptersData> courseChaptersDataList, Context context) {
         this.courseChaptersDataList = courseChaptersDataList;
         this.context = context;
     }
@@ -50,7 +50,7 @@ public class ProgramChaptersAdapter extends RecyclerView.Adapter<ProgramChapters
     public void onBindViewHolder(@NonNull ProgramChaptersViewHolder programChaptersViewHolder, final int position) {
          TextView titleview = programChaptersViewHolder.chapterTitleView;
         programChaptersViewHolder.chapterTitleView.setText(courseChaptersDataList.get(position).CourseTitle);
-        programChaptersViewHolder.chapterNumberView.setText(courseChaptersDataList.get(position).CourseNumber);
+        programChaptersViewHolder.chapterNumberView.setText(String.valueOf(position+1));
         programChaptersViewHolder.chapterVideoDurationView.setText(courseChaptersDataList.get(position).CourseVideoDuration);
 
         programChaptersViewHolder.constraintLayoutParent.setOnClickListener(new View.OnClickListener() {

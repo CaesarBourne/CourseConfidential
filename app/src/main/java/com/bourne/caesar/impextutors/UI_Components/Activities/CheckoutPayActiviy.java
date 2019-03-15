@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -25,7 +26,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bourne.caesar.impextutors.Models.CoursePayStatus;
 import com.bourne.caesar.impextutors.R;
+import com.bourne.caesar.impextutors.FirebaseTasksCore.AddCoursePaidStatusToFirebase;
+import com.bourne.caesar.impextutors.Utilities.Constants;
 import com.bourne.caesar.impextutors.Utilities.SharedPreferencesStorage;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -38,8 +42,11 @@ import co.paystack.android.model.Charge;
 public class CheckoutPayActiviy extends AppCompatActivity {
 
     public static final String COURSE_CHECKPUT_PRICE = "payprice";
-    public static final String COURSE_ID = "courseid";
+    public static final String COURSE_DOLLAR_FEE = "dollar";
+    public static final String COURSE_NAME = "coursename";
+    public static final String COURSE_ID = "courseID";
     private  String courseTitleString = "Course";
+    private  String courseIDString = "CourseIDstri";
     private Button payButton;
     private Card myCard;
     private Charge charge;
@@ -54,10 +61,12 @@ public class CheckoutPayActiviy extends AppCompatActivity {
     private static final int VISA = 11;
     private static final int MASTERCARD = 22;
     private static final int VERVE = 33;
-    NotificationCompat.Builder notification;
-    FirebaseAuth authenticatedUser;
+    private NotificationCompat.Builder notification;
+    private FirebaseAuth authenticatedUser;
     private static final int uniqueId = 646843;
+   String courseAmountString = "10";
 
+    private AddCoursePaidStatusToFirebase addCoursePaidStatusToFirebase;
     private static final String VISA_CARD_PREFIX = "4";
     private static final String MASTER_CARD_PREFIX = "51,52,53,54,55,";
     private static final String VERVE_CARD_PREFIX = "50,65,";
@@ -69,12 +78,26 @@ public class CheckoutPayActiviy extends AppCompatActivity {
         PaystackSdk.initialize(this);
         setContentView(R.layout.activity_checkout_pay_activiy);
         initialization();
+        addCoursePaidStatusToFirebase = new AddCoursePaidStatusToFirebase(this);
 
-        String courseAmountString;
+
+        String courseDollar;
         if (getIntent().getExtras() != null){
-            courseAmountString = getIntent().getExtras().getString(COURSE_CHECKPUT_PRICE);
-            courseTitleString = getIntent().getExtras().getString(COURSE_ID);
-            courseAmountField.setText(courseAmountString);
+            if ((SharedPreferencesStorage.getSharedPrefInstance(this).getCurrency() == Constants.IMPEX_DOLLAR)){
+                courseDollar = getIntent().getExtras().getString(COURSE_DOLLAR_FEE);
+                courseAmountField.setText(courseDollar);
+                courseAmountString = getIntent().getExtras().getString(COURSE_CHECKPUT_PRICE);
+                courseTitleString = getIntent().getExtras().getString(COURSE_NAME);
+                courseIDString = getIntent().getExtras().getString(COURSE_ID);
+                courseAmountField.setCompoundDrawablesWithIntrinsicBounds(R.drawable.dollarsymbol,0,0,0);
+            }
+            else {
+                courseAmountString = getIntent().getExtras().getString(COURSE_CHECKPUT_PRICE);
+                courseTitleString = getIntent().getExtras().getString(COURSE_NAME);
+                courseIDString = getIntent().getExtras().getString(COURSE_ID);
+                courseAmountField.setText(courseAmountString);
+            }
+
         }
         authenticatedUser = FirebaseAuth.getInstance();
         String usernameString = authenticatedUser.getInstance().getCurrentUser().getDisplayName();
@@ -97,7 +120,7 @@ public class CheckoutPayActiviy extends AppCompatActivity {
                     expiryMonth = Integer.parseInt(expiryMonthField.getText().toString().trim());
                     expiryYear = Integer.parseInt(expiryYearField.getText().toString().trim());
                     cvv = cvvField.getText().toString().trim();
-                    amountInKobo = Integer.parseInt(courseAmountField.getText().toString().trim());
+                    amountInKobo = Integer.parseInt(courseAmountString.trim());
 
                     myCard = new Card(cardNumber, expiryMonth, expiryYear, cvv);
 
@@ -178,6 +201,9 @@ public class CheckoutPayActiviy extends AppCompatActivity {
             return 0;
         }
     }
+    public void addCoursesPayStatusSuccesful(String courseTitle){
+        Toast.makeText(CheckoutPayActiviy.this, courseTitle+ " Course saved to Paid List", Toast.LENGTH_SHORT).show();
+    }
 
 
     private void chargeCard() {
@@ -193,6 +219,7 @@ public class CheckoutPayActiviy extends AppCompatActivity {
             public void onSuccess(Transaction transaction) {
 
                 showProgress(false);
+
                 String paymentReference = transaction.getReference();
                 Toast.makeText(CheckoutPayActiviy.this, "Transaction Successful! payment reference: "
                         + paymentReference, Toast.LENGTH_LONG).show();
@@ -200,7 +227,10 @@ public class CheckoutPayActiviy extends AppCompatActivity {
 //                    statusListenerChild.status(paymentReference, "your order is been processed...");
 //                    HomeFragment.startHomefragment(TestPayStack.this);
 //                }
-                SharedPreferencesStorage.getSharedPrefInstance(CheckoutPayActiviy.this).saveCourseID( courseTitleString);
+                CoursePayStatus coursePayStatus = new CoursePayStatus(courseTitleString, courseIDString);
+                Log.v("Course", ""+courseTitleString+" status of course: "+ coursePayStatus+" ");
+                addCoursePaidStatusToFirebase.addCoursePaidStatus(courseTitleString, coursePayStatus);
+//                SharedPreferencesStorage.getSharedPrefInstance(CheckoutPayActiviy.this).saveCourseID( courseTitleString);
                 Intent intent = new Intent(CheckoutPayActiviy.this, PaaymentSuccessfulActivity.class);
                 intent.putExtra(PaaymentSuccessfulActivity.TRANSACTION_ID, "Your order would be delivered shortly thanks for patronage...");
 
@@ -224,13 +254,15 @@ public class CheckoutPayActiviy extends AppCompatActivity {
                 NotificationManager notmanage = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
                 notmanage.notify(uniqueId, notification.build());
 
+                intent.putExtra(PaaymentSuccessfulActivity.COURSE_TITLE, courseTitleString);
 
-                Intent finishedintent = new Intent(CheckoutPayActiviy.this, PaaymentSuccessfulActivity.class);
+//                Intent finishedintent = new Intent(CheckoutPayActiviy.this, PaaymentSuccessfulActivity.class);
 //                finishedintent.putExtra(OrderActivity.EXTRA_SUCCESFUL_MESSAGE, "Your order would be delivered within 2 weeks...");
-                startActivity(finishedintent);
-
+                startActivity(intent);
 
             }
+
+
 
             @Override
             public void beforeValidate(Transaction transaction) {
@@ -254,7 +286,7 @@ public class CheckoutPayActiviy extends AppCompatActivity {
         mProgressView = findViewById(R.id.login_progress);
         courseAmountField = findViewById(R.id.checkoutPrice);
         payButton = findViewById(R.id.paybutton);
-        userNameField = findViewById(R.id.nameField);
+        userNameField = findViewById(R.id.nameOnCardField);
 
         nameOnCardField = findViewById(R.id.nameOnCardField);
         cardNumberField = findViewById(R.id.cardnumberField);

@@ -15,19 +15,31 @@ public class CourseChaptersData implements Parcelable {
     public String CourseVideoDuration;
     public String CourseVideoStream;
     public String CourseAudio;
+    public String CourseID;
+
 
     public CourseChaptersData() {
     }
 
-    public CourseChaptersData(String courseTitle, String courseDescription,
-                              String courseNumber, String courseVideoDuration, String courseVideoStream, String courseAudio) {
-        this.CourseTitle = courseTitle;
+    public CourseChaptersData(String courseTitle, String courseDescription, String courseNumber,
+                              String courseVideoDuration, String courseVideoStream, String courseAudio, String courseID) {
+        CourseTitle = courseTitle;
         CourseDescription = courseDescription;
         CourseNumber = courseNumber;
         CourseVideoDuration = courseVideoDuration;
         CourseVideoStream = courseVideoStream;
         CourseAudio = courseAudio;
+        CourseID = courseID;
     }
+    //    public CourseChaptersData(String courseTitle, String courseDescription,
+//                              String courseNumber, String courseVideoDuration, String courseVideoStream, String courseAudio) {
+//        this.CourseTitle = courseTitle;
+//        CourseDescription = courseDescription;
+//        CourseNumber = courseNumber;
+//        CourseVideoDuration = courseVideoDuration;
+//        CourseVideoStream = courseVideoStream;
+//        CourseAudio = courseAudio;
+//    }
 
     public CourseChaptersData(Parcel parcel) {
         CourseTitle = parcel.readString();
@@ -36,6 +48,7 @@ public class CourseChaptersData implements Parcelable {
         CourseVideoDuration = parcel.readString();
         CourseVideoStream = parcel.readString();
         CourseAudio = parcel.readString();
+        CourseID = parcel.readString();
     }
 
     public static final Parcelable.Creator<CourseChaptersData> CREATOR =
@@ -66,6 +79,7 @@ public class CourseChaptersData implements Parcelable {
         dest.writeString(CourseVideoDuration);
         dest.writeString(CourseVideoStream);
         dest.writeString(CourseAudio);
+        dest.writeString(CourseID);
     }
 
 //    public String getCourseTitle() {

@@ -40,15 +40,15 @@ public class SharedPreferencesStorage {
         return userImageString;
     }
 
-    public void saveDownloadButtonStatus( String chapterId){
+    public void saveCurrency( String currencyType){
         SharedPreferences mysharedpreferences = mycontext.getSharedPreferences(SHARED_PREF_FILE, Context.MODE_PRIVATE);
         SharedPreferences.Editor sharededitor = mysharedpreferences.edit();
-        sharededitor.putString(Constants.IMPEX_USER_IMAGE, chapterId);
+        sharededitor.putString(Constants.IMPEX_CURRENCY, currencyType);
         sharededitor.apply();
     }
-    public String getDownloadButtonStaus(String chapterId){
+    public String getCurrency(){
         SharedPreferences tokenSharedPreferences = mycontext.getSharedPreferences(SHARED_PREF_FILE, Context.MODE_PRIVATE);
-        String userImageString = tokenSharedPreferences.getString(chapterId, null);
+        String userImageString = tokenSharedPreferences.getString(Constants.IMPEX_CURRENCY, null);
         return userImageString;
     }
 

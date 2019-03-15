@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 import com.bourne.caesar.impextutors.Models.CourseFeaturesData;
 import com.bourne.caesar.impextutors.R;
-import com.bourne.caesar.impextutors.TasksCore.AddProgramFeaturesToDatabase;
+import com.bourne.caesar.impextutors.FirebaseTasksCore.AddProgramFeaturesToDatabase;
 import com.bourne.caesar.impextutors.Utilities.Constants;
 
 public class AddProgramFeaturesActivity extends AppCompatActivity {
@@ -31,12 +31,13 @@ public class AddProgramFeaturesActivity extends AppCompatActivity {
     EditText programPreviewVideoView;
     EditText programImagePreviewView;
     EditText programImageFeaturedView;
-    EditText programnumberOfChapterView;
+    EditText programfeeDollars;
     EditText pogramChapterTitle;
     View mProgressView;
     LinearLayout aaddDataLayout;
     Button sendBasicDetailsToFirebase, sendIntermediateDetailsToFirebase, sendAdvanceDetailsToFirebase,sendCustomerServiceDetailsToFirebase,
-            sendTradeFinanaceDetailsToFirebase,sendBusinessManagementDetailsToFirebase;
+            sendTradeFinanaceDetailsToFirebase,sendBusinessManagementDetailsToFirebase, sendSpecialistTradeFinanceToFirebse,
+            sendDocumentryCreditToFirebase;
 
     String programIdString, programTitleString, programTargetString, programDescriptionString, programFeeString,programTimeaDurationString,
             programFacilitatorContactNumberString, programFacilitatorEmailString, programPreviewVideoString, programImagePreviewString,
@@ -89,6 +90,20 @@ public class AddProgramFeaturesActivity extends AppCompatActivity {
                 attemptUploadToFirebase(Constants.IMPEX_BUSINESS_MANAGEMENT);
             }
         });
+
+        sendSpecialistTradeFinanceToFirebse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                attemptUploadToFirebase(Constants.IMPEX_SPECIALIST_TRADE_FINANCE);
+            }
+        });
+
+        sendDocumentryCreditToFirebase.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                attemptUploadToFirebase(Constants.IMPEX_DOCUMENTRY_CREDIT);
+            }
+        });
     }
 
     private void initialization() {
@@ -100,6 +115,8 @@ public class AddProgramFeaturesActivity extends AppCompatActivity {
         sendCustomerServiceDetailsToFirebase = findViewById(R.id.addCustomerServiceDatatoFirebase);
         sendTradeFinanaceDetailsToFirebase = findViewById(R.id.addTradeFinanceDatatoFirebase);
         sendBusinessManagementDetailsToFirebase = findViewById(R.id.addBusinessManagementDatatoFirebase);
+        sendSpecialistTradeFinanceToFirebse = findViewById(R.id.addSpecialist_tradetbutton);
+        sendDocumentryCreditToFirebase = findViewById(R.id.adddocumentrycredit_button);
 
         //progressbar
         mProgressView = findViewById(R.id.login_progress);
@@ -110,19 +127,20 @@ public class AddProgramFeaturesActivity extends AppCompatActivity {
         programTitleView = findViewById(R.id.programtitle);
         programTargetView = findViewById(R.id.programtarget);
         programDescriptionView = findViewById(R.id.programdescription);
-        programfeeView = findViewById(R.id.programfee);
+        programfeeView = findViewById(R.id.programfeeNaira);
         programTimeDurationView = findViewById(R.id.programTimeDuaration);
         programFacilitatorContactNumberView = findViewById(R.id.programfacilitatorcontact);
         programFacilitatorEmailView = findViewById(R.id.programfacilitatoremail);
         programPreviewVideoView = findViewById(R.id.programpreviewvideo);
         programImagePreviewView = findViewById(R.id.programpreviewimage);
         programImageFeaturedView = findViewById(R.id.programfeaturedimages);
-        programnumberOfChapterView = findViewById(R.id.programchapternumbers);
+        programfeeDollars = findViewById(R.id.programfeeDollars);
     }
 
     public boolean attemptUploadToFirebase(String featureID) {
         boolean valid = true;
 
+        ProgramIdView.setText(featureID);
 
         programIdString = ProgramIdView.getText().toString().trim();
         programTitleString = programTitleView.getText().toString().trim();
@@ -135,7 +153,7 @@ public class AddProgramFeaturesActivity extends AppCompatActivity {
         programPreviewVideoString = programPreviewVideoView.getText().toString().trim();
         programImagePreviewString = programImagePreviewView.getText().toString().trim();
         programImageFeaturedString = programImageFeaturedView.getText().toString().trim();
-        programNumberOfChapterString = programnumberOfChapterView.getText().toString().trim();
+        programNumberOfChapterString = programfeeDollars.getText().toString().trim();
 
         View focusview = null;
         if (TextUtils.isEmpty(programIdString)){
@@ -206,8 +224,8 @@ public class AddProgramFeaturesActivity extends AppCompatActivity {
 
         if (TextUtils.isEmpty(programNumberOfChapterString)){
             valid = false;
-            programnumberOfChapterView.setError("you must put in name");
-            focusview = programnumberOfChapterView;
+            programfeeDollars.setError("you must put in name");
+            focusview = programfeeDollars;
         }
 
             if (!valid){
@@ -228,9 +246,9 @@ public class AddProgramFeaturesActivity extends AppCompatActivity {
 //            this.programPreviewVideoView = programPreviewVideoView;
 //            this.programImagePreviewView = programImagePreviewView;
 //            this.programImageFeaturedView = programImageFeaturedView;
-//            this.programnumberOfChapterView = programnumberOfChapterView;
+//            this.programfeeDollars = programfeeDollars;
 
-            CourseFeaturesData courseFeaturesData = new CourseFeaturesData(programIdString,programTitleString,programTargetString,
+            CourseFeaturesData courseFeaturesData = new CourseFeaturesData(featureID,programTitleString,programTargetString,
                     programDescriptionString, programFeeString,programTimeaDurationString,programFacilitatorContactNumberString,
                     programFacilitatorEmailString, programPreviewVideoString, programImagePreviewString, programImageFeaturedString
             ,programNumberOfChapterString);

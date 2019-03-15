@@ -35,6 +35,7 @@ public class PayViewModel extends AndroidViewModel {
     public void DeleteAllPayment(PayTable payTable){
         impexRepository.DeleteAll();
     }
+
     public LiveData<List<PayTable>> getAllPayment(){
         return allPayment;
     }

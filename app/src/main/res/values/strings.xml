@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ImpexTutor</string>
+    <string name="app_name">GTC Tutor</string>
     <string name="title_activity_login">Sign in</string>
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -9,7 +9,7 @@
     <string name="action_sign_in">LOGIN</string>
     <string name="new_user">New to Impex Tutor?</string>
     <string name="sign_up_start">Sign Up</string>
-    <string name="action_sign_up">CREATE ACCOUNT</string>
+    <string name="action_sign_up">CREATE ACCOUNTfacebook_app</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
@@ -28,12 +28,20 @@
     >Welcome to Impex tutors and d buy the latest and trrending courses and get the best knowledge on how to trade
      you can watch videos of classes and radio podcasts,
     </string>
+    <string name="Describe">Welcome to Impex tutors and d buy the latest and trrending courses and get the best knowledge on how to trade
+    you can watch videos of classes and radio podcasts</string>
     <string name="message">Learn trade and get certified from America from the comfort of your room. You only come to our centre to write your examination</string>
     <string name="title_activity_register">Sign up</string>
+    <string name="item_share">share_app</string>
+    <string name="dollar">Dollar</string>
+    <string name="naira">Naira</string>
 
     <string name="facebook_app_id">378995692855919</string>
     <string name="fb_login_protocol_scheme">fb378995692855919</string>
-    <string name="title_activity_home">HomeActivity</string>
+    \
+    <string name="about_app">GTC Tutor is an initiative of 3T Impex Trade Academy designed primarily to enable students offering our trade professional development programs (run in conjunction with the American Institute of Extended Studies) to be able to access lectures and course materials via their mobile devices</string>
+
+    <string name="title_activity_home">HomerActivity</string>
     <string name="title_home">Home</string>
     <string name="title_courses">Courses</string>
     <string name="title_store">Store</string>
@@ -47,6 +55,12 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
+
+    <string name="newstitle_transition">newstitleTransition</string>
+    <string name="newsimage_transition">newsimageTransition</string>
+    <string name="newsdate_transition">newsdateTransition</string>
+    <string name="newsreaduration_transition">newsReadDurationTransition</string>
+    <string name="newsdescription_transition">newsDescriptionTransition</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

@@ -1,5 +1,6 @@
 package com.bourne.caesar.impextutors.Adapters;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -9,15 +10,21 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bourne.caesar.impextutors.Models.CourseFeaturesData;
 import com.bourne.caesar.impextutors.R;
+import com.bourne.caesar.impextutors.Utilities.Constants;
+import com.bourne.caesar.impextutors.Utilities.SharedPreferencesStorage;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.NetworkPolicy;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 public class FeaturedProgramsHorizontaalAdapter extends RecyclerView.Adapter<FeaturedProgramsHorizontaalAdapter.FeaturedCoursesViewHolder> {
 
-    ArrayList<String> titlestring, coursepricestring;
-    ArrayList<Integer> couraseimagedrawable;
+    ArrayList<CourseFeaturesData> courseFeaturesDataArrayList;
     Listener initializedListener;
+    Context context;
 
     public interface Listener{
         void onCourseClick(int position);
@@ -27,11 +34,14 @@ public class FeaturedProgramsHorizontaalAdapter extends RecyclerView.Adapter<Fea
         this.initializedListener = listener;
     }
 
-    public FeaturedProgramsHorizontaalAdapter(ArrayList<String> titlestring, ArrayList<String> coursepricestring,
-                                              ArrayList<Integer> couraseimagedrawable) {
-        this.titlestring = titlestring;
-        this.coursepricestring = coursepricestring;
-        this.couraseimagedrawable = couraseimagedrawable;
+//    public FeaturedProgramsHorizontaalAdapter(ArrayList<CourseFeaturesData> courseFeaturesDataArrayList) {
+//        this.courseFeaturesDataArrayList = courseFeaturesDataArrayList;
+//    }
+
+
+    public FeaturedProgramsHorizontaalAdapter(ArrayList<CourseFeaturesData> courseFeaturesDataArrayList, Context context) {
+        this.courseFeaturesDataArrayList = courseFeaturesDataArrayList;
+        this.context = context;
     }
 
     @NonNull
@@ -44,10 +54,38 @@ public class FeaturedProgramsHorizontaalAdapter extends RecyclerView.Adapter<Fea
     }
 
     @Override
-    public void onBindViewHolder(@NonNull FeaturedCoursesViewHolder featuredCoursesViewHolder, final int position) {
-        featuredCoursesViewHolder.courseImageView.setImageResource(couraseimagedrawable.get(position));
-        featuredCoursesViewHolder.courseTitleView.setText(titlestring.get(position));
-        featuredCoursesViewHolder.coursePriceView.setText(coursepricestring.get(position));
+    public void onBindViewHolder(@NonNull final FeaturedCoursesViewHolder featuredCoursesViewHolder, final int position) {
+
+               Picasso.get().load(courseFeaturesDataArrayList.get(position).getProgramImageFeatured())
+                .networkPolicy(NetworkPolicy.OFFLINE)
+                .into(featuredCoursesViewHolder.courseImageView, new Callback() {
+                    @Override
+                    public void onSuccess() {
+
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+                        Picasso.get().load(courseFeaturesDataArrayList.get(position)
+                                .getProgramImageFeatured()).into( featuredCoursesViewHolder.courseImageView);
+
+                    }
+                });
+        //        featuredCoursesViewHolder.courseImageView.setImageResource(courseFeaturesDataArrayList.get(position).getProgramImageFeatured());
+        if ((SharedPreferencesStorage.getSharedPrefInstance(context).getCurrency() == Constants.IMPEX_DOLLAR)){
+            featuredCoursesViewHolder.coursePriceView.setText(courseFeaturesDataArrayList.get(position).getProgramfeeDollar());
+            featuredCoursesViewHolder.coursePriceView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.dollarsymbol,0,0, 0);
+        }
+        else{
+            featuredCoursesViewHolder.coursePriceView.setText(courseFeaturesDataArrayList.get(position).getProgramfeeNaira());
+            featuredCoursesViewHolder.coursePriceView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.naira,0,0, 0);
+        }
+//        featuredCoursesViewHolder.courseTitleView.setText(courseFeaturesDataArrayList.get(position).getProgramTitle());
+//        featuredCoursesViewHolder.coursePriceView.setText(courseFeaturesDataArrayList.get(position).getProgramfeeNaira());
+        //  Glide.with(this)
+        //                .asBitmap()
+        //                .load(Uri.parse(userPic))
+        //                .into(userProfileView);
 
         featuredCoursesViewHolder.coursesCardView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,7 +101,7 @@ public class FeaturedProgramsHorizontaalAdapter extends RecyclerView.Adapter<Fea
 
     @Override
     public int getItemCount() {
-        return titlestring.size();
+        return courseFeaturesDataArrayList.size();
     }
 
     class FeaturedCoursesViewHolder extends RecyclerView.ViewHolder{

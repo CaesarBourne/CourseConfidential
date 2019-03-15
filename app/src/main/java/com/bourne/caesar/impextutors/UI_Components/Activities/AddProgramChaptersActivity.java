@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import com.bourne.caesar.impextutors.Models.CourseChaptersData;
 import com.bourne.caesar.impextutors.R;
-import com.bourne.caesar.impextutors.TasksCore.AddProgramChaptersToDatabase;
+import com.bourne.caesar.impextutors.FirebaseTasksCore.AddProgramChaptersToDatabase;
 import com.bourne.caesar.impextutors.Utilities.Constants;
 
 public class AddProgramChaptersActivity extends AppCompatActivity {
@@ -28,10 +28,11 @@ public class AddProgramChaptersActivity extends AppCompatActivity {
     EditText programChapterVideoDuration;
     EditText programChapterVideoStreamLink;
     EditText programchapterAudio;
+    EditText programChapterID;
 
 
    private String  programChapterTitleString, programChapterDescriptionString, programChapterNumberString, programChapterVideoDurationString,
-            programChapterVideoStreamLinkString, programchapterAudioString;
+            programChapterVideoStreamLinkString, programchapterAudioString, programChapterIDString;
 
     AddProgramChaptersToDatabase addProgramChaptersToDatabase;
 
@@ -112,12 +113,13 @@ public class AddProgramChaptersActivity extends AppCompatActivity {
         programChapterVideoDuration = findViewById(R.id.programchapterVideoDuaration);
         programChapterVideoStreamLink= findViewById(R.id.programchaptervideostreamlink);
         programchapterAudio= findViewById(R.id.programchapteraudio);
-
+        programChapterID = findViewById(R.id.programchapterID);
+        String chapterID = String.valueOf(System.currentTimeMillis());
+        programChapterID.setText(chapterID);
     }
 
     public boolean attemptUploadToFirebase( String ProgramId) {
         boolean valid = true;
-
 
         programChapterTitleString = programChapterTitle.getText().toString().trim();
 
@@ -126,6 +128,7 @@ public class AddProgramChaptersActivity extends AppCompatActivity {
         programChapterVideoDurationString = programChapterVideoDuration.getText().toString().trim();
         programChapterVideoStreamLinkString = programChapterVideoStreamLink.getText().toString().trim();
         programchapterAudioString = programchapterAudio.getText().toString().trim();
+        programChapterIDString = programChapterID.getText().toString().trim();
 
 
 
@@ -170,6 +173,11 @@ public class AddProgramChaptersActivity extends AppCompatActivity {
             programchapterAudio.setError("you must put in name");
             focusview = programchapterAudio;
         }
+        if (TextUtils.isEmpty(programChapterIDString)){
+            valid = false;
+            programChapterID.setError("you must put in ID");
+            focusview = programChapterID;
+        }
 
 
 
@@ -193,13 +201,13 @@ public class AddProgramChaptersActivity extends AppCompatActivity {
 //            this.programPreviewVideoView = programPreviewVideoView;
 //            this.programImagePreviewView = programImagePreviewView;
 //            this.programImageFeaturedView = programImageFeaturedView;
-//            this.programnumberOfChapterView = programnumberOfChapterView;
+//            this.programfeeDollars = programfeeDollars;
 
             CourseChaptersData courseChaptersData = new CourseChaptersData(programChapterTitleString,
                     programChapterDescriptionString,  programChapterNumberString, programChapterVideoDurationString,
-                     programChapterVideoStreamLinkString, programchapterAudioString
+                     programChapterVideoStreamLinkString, programchapterAudioString, programChapterIDString
                     );
-            addProgramChaptersToDatabase.AddProgamChapters(programchapterAudioString, courseChaptersData, ProgramId);
+            addProgramChaptersToDatabase.AddProgamChapters(programChapterIDString, courseChaptersData, ProgramId);
             showProgress(true);
 
         }

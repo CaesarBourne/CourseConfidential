@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".UI_Components.Activities.AddFeaturedCoursesActivitry">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.NoActionBar">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/addfeatureCoursreToolBar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/grey"
+            app:popupTheme="@style/AppTheme.NoActionBar" />
+
+    </android.support.design.widget.AppBarLayout>
+    <ProgressBar
+        android:id="@+id/featured_progress"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:id="@+id/checkboxform">
+
+
+
+    <CheckBox
+        android:id="@+id/basicCheckbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Basic Data"
+        android:onClick="onFeatureCourse"/>
+
+    <CheckBox
+        android:id="@+id/intermidiateCheckbox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Intermidiate Data"
+        android:onClick="onFeatureCourse"/>
+
+    <CheckBox
+        android:id="@+id/advancedCheckbox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Advanced Data"
+        android:onClick="onFeatureCourse"/>
+
+    <CheckBox
+        android:id="@+id/customerServicCheckbox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Customer Service Data"
+        android:onClick="onFeatureCourse"/>
+
+    <CheckBox
+        android:id="@+id/tradefinaceCheckbox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:onClick="onFeatureCourse"
+        android:text="Trade Finance Data" />
+
+    <CheckBox
+        android:id="@+id/businessManagementCheckbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:onClick="onFeatureCourse"
+        android:text="Business Management Data" />
+</LinearLayout>
+</LinearLayout>

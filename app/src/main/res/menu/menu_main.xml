@@ -11,7 +11,11 @@
         android:id="@+id/logoutUser"
         >
     </item>
-
-
+ <item android:title="@string/item_share"
+    android:orderInCategory="2"
+    app:showAsAction="ifRoom"
+    android:icon="@drawable/ic_menu_share"
+    android:id="@+id/share_app"
+    android:checkable="true"></item>
 
 </menu>

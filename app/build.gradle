@@ -1,10 +1,11 @@
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
 
 android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.bourne.caesar.impextutors"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -12,11 +13,38 @@ android {
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
     }
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
     buildTypes {
+
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+//        release {
+//            debuggable true
+//            minifyEnabled true
+//            shrinkResources true
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//        }
+//
+//        debug {
+//            debuggable true
+//            minifyEnabled true
+//            shrinkResources true
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//        }
+
+
     }
 }
 
@@ -32,6 +60,8 @@ dependencies {
     implementation 'com.android.support:recyclerview-v7:28.0.0'
     //circle imageview
     implementation 'de.hdodenhof:circleimageview:2.2.0'
+
+
     testImplementation 'junit:junit:4.12'
     implementation 'co.paystack.android:paystack:3.0.10'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
@@ -40,6 +70,11 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:16.0.5'
     implementation 'com.google.firebase:firebase-database:16.0.5'
     implementation 'com.google.firebase:firebase-storage:16.0.5'
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.9'
+    // Update your firebase-core version, if it's lower than v11.4.2
+    implementation 'com.google.firebase:firebase-core:16.0.7'
+
+
     implementation 'com.facebook.android:facebook-login:[4,5)'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.github.bumptech.glide:glide:4.4.0'
@@ -67,6 +102,8 @@ dependencies {
     implementation 'com.google.android.exoplayer:exoplayer-dash:2.7.3'
     implementation 'com.google.android.exoplayer:exoplayer-ui:2.7.3'
     implementation 'com.android.support:multidex:1.0.3'
+
+    implementation 'com.squareup.okhttp3:okhttp:3.13.1'
 
 }
 apply plugin: 'com.google.gms.google-services'

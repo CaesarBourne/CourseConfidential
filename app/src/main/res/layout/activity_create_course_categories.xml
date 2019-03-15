@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".UI_Components.Activities.CreateCourseCategoriesActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+        <ProgressBar
+            android:id="@+id/chapters_progressbar"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:visibility="gone" />
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="20dp"
+            android:id="@+id/addchapterslayout"
+            >
+
+
+            <EditText
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Category ID"
+                android:gravity="center"
+                android:padding="10dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="20dp"
+                android:id="@+id/podcastTitle"/>
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Course Title (NoSpaces)"
+                android:layout_marginBottom="20dp"
+                android:padding="10dp"
+                android:id="@+id/podcastID"/>
+
+
+
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/addPodcastToFirebase"
+                android:text="Add Category"
+                android:textColor="@color/white"
+                android:padding="30dp"
+                android:textStyle="bold"
+                android:layout_marginTop="40dp"
+                android:layout_marginBottom="50dp"
+                android:layout_gravity="center"
+                android:background="@drawable/intermediatebackground"/>
+
+
+
+
+
+
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

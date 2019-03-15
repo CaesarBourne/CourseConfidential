@@ -12,10 +12,8 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -27,7 +25,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.MediaController;
@@ -40,15 +38,17 @@ import com.bourne.caesar.impextutors.Adapters.ProgramChaptersAdapter;
 import com.bourne.caesar.impextutors.MainActivity;
 import com.bourne.caesar.impextutors.Models.CourseChaptersData;
 import com.bourne.caesar.impextutors.Models.CourseFeaturesData;
+import com.bourne.caesar.impextutors.Models.CoursePayStatus;
 import com.bourne.caesar.impextutors.R;
-import com.bourne.caesar.impextutors.TasksCore.GetProgramChaptersFromDatabase;
-import com.bourne.caesar.impextutors.TasksCore.GetProgramFeaturesFromFirebase;
+import com.bourne.caesar.impextutors.FirebaseTasksCore.GetCoursePayStatusForProgramsActivity;
+import com.bourne.caesar.impextutors.FirebaseTasksCore.GetProgramChaptersFromDatabase;
+import com.bourne.caesar.impextutors.FirebaseTasksCore.GetProgramFeaturesFromFirebase;
+import com.bourne.caesar.impextutors.UI_Components.Fragments.ChapterTypeFragment;
 import com.bourne.caesar.impextutors.UI_Components.Fragments.PreviewCourseVideoDialogFragment;
 import com.bourne.caesar.impextutors.UI_Components.Fragments.PurchaseCourseDialogFragment;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 
 public class ProgramFeaturesActivity extends AppCompatActivity {
 
@@ -62,13 +62,21 @@ public class ProgramFeaturesActivity extends AppCompatActivity {
     private VideoView videoView;
     private File file;
     MediaController mediaController;
+    private GetCoursePayStatusForProgramsActivity getCoursePayStatusForProgramsActivity;
 
     private DownloadManager downloadManager;
     private long refid;
+    private CourseFeaturesData courseFeaturesDataActivity;
+    private boolean courseChapterDataGotten;
+    private ArrayList<CourseChaptersData> courseChaptersListActivity;
+    boolean coursepaidStatus;
     private Uri Download_Uri;
+    private boolean programFeaturesGotten;
     ArrayList<Long> list = new ArrayList<>();
+    ArrayList<CoursePayStatus> coursesPaidForList;
 
-    private TextView programTitle, programDescription, programVideoDuration, programVideoUrl;
+
+    private TextView programTitle, programDescription,  programVideoUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,9 +85,9 @@ public class ProgramFeaturesActivity extends AppCompatActivity {
 
         initialization();
         getIntentData();
-        myNewToolbar.setTitle("Impex Program");
-        setSupportActionBar(myNewToolbar);
 
+        getCoursePayStatusForProgramsActivity = new GetCoursePayStatusForProgramsActivity(this);
+        getCoursePayStatusForProgramsActivity.getCoursePayStatus();
         //DOWNLOADMANAGER
         downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
 
@@ -99,46 +107,7 @@ public class ProgramFeaturesActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-//                if (connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() ==
-//                        NetworkInfo.State.CONNECTED || connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
-//                        .getState() == NetworkInfo.State.CONNECTED){
-//                    Uri uri = Uri.parse("https://peptribe-uploads.s3.amazonaws.com/upload/videos/2018/08/Q9xilJ2zY2wjtXO5gsmn_17_3f3a2681d60daae03e11a10075672c06_video.mp4");
-//                    videoView.setVideoURI(uri);
-//                    mediaController = new MediaController(ProgramFeaturesActivity.this);
-////        mediaController.setAnchorView(videoView);
-//                    videoView.setMediaController(mediaController);
-//                    videoView.start();
-//
-//                }else {
-//                    Uri uri = Uri.parse(Environment.DIRECTORY_DOWNLOADS+ "/.Impex/programnumber.mp4");
-//                    videoView.setVideoURI(uri);
-//                    mediaController = new MediaController(ProgramFeaturesActivity.this);
-////        mediaController.setAnchorView(videoView);
-//                    videoView.setMediaController(mediaController);
-//                    videoView.start();
-//                }
-//                String path = Environment.DIRECTORY_DOWNLOADS +File.separator +".Impex" +File.separator + "programnumber.mp4";
-                String path = getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS) +File.separator +".Impex" +File.separator + "programnumber.mp4";
-                Log.v("ProgramFeature", "na the path be this o   "+ path);
-                File file = new File(ProgramFeaturesActivity.this.getExternalFilesDir(
-                        Environment.DIRECTORY_DOWNLOADS), "/.Impex/programnumber.mp4");
-
-                String videoFile= "storage/emulated/0/Download/.Impexa/programnumber.mp4";
-                Uri uri = Uri.parse("https://peptribe-uploads.s3.amazonaws.com/upload/videos/2018/08/Q9xilJ2zY2wjtXO5gsmn_17_3f3a2681d60daae03e11a10075672c06_video.mp4");
-                videoView.setVideoURI(Uri.parse(path));
-                mediaController = new MediaController(ProgramFeaturesActivity.this);
-               mediaController.setAnchorView(videoView);
-                videoView.setMediaController(mediaController);
-                videoView.start();
-//                if (file.exists()){
-//                    Toast.makeText(ProgramFeaturesActivity.this, "Oga the video file is downloaded", Toast.LENGTH_SHORT).show();
-//
-//                }
-//                else{
-//                    Toast.makeText(ProgramFeaturesActivity.this, "Mallam no video file to play o download first" +
-//                            "", Toast.LENGTH_SHORT).show();
-//                }
-//                showVideoPopUp();
+                playPreview();
 
             }
         });
@@ -153,26 +122,26 @@ public class ProgramFeaturesActivity extends AppCompatActivity {
         }
 
 
-//        downloadCourseButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                list.clear();
-//
-//                DownloadManager.Request downloadRequest = new DownloadManager.Request(Download_Uri);
-//                downloadRequest.setDescription("downloading program.mp4.....");
-//                downloadRequest.setTitle("ProgramPay");
-//                downloadRequest.setDestinationInExternalFilesDir(ProgramFeaturesActivity.this,Environment.DIRECTORY_DOWNLOADS,
-//                        "/.Impex/programnumber.mp4");
-////                String downloadstore = ProgramFeaturesActivity.this,Environment.DIRECTORY_DOWNLOADS,
-////                        "/.Impex/programnumber.mp4"
-////                downloadRequest.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "/.Impex/programnumber.mp4");
-//                downloadRequest.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE | DownloadManager.Request.NETWORK_WIFI);
-//
-//                long reference_download_ID = downloadManager.enqueue(downloadRequest);
-//
-//                list.add(reference_download_ID);
-//            }
-//        });
+    }
+
+    private void playPreview() {
+
+
+        if (programFeaturesGotten && courseFeaturesDataActivity != null){
+            String videoFile= courseFeaturesDataActivity.getProgramPreviewVideo();
+            Uri uri = Uri.parse("https://peptribe-uploads.s3.amazonaws.com/upload/videos/2018/08/Q9xilJ2zY2wjtXO5gsmn_17_3f3a2681d60daae03e11a10075672c06_video.mp4");
+
+            videoView.setVideoURI(Uri.parse(videoFile));
+            mediaController = new MediaController(ProgramFeaturesActivity.this);
+            mediaController.setAnchorView(videoView);
+            videoView.setMediaController(mediaController);
+            videoView.start();
+        }
+        else{
+            Toast.makeText(this, "No Preview Video for this course", Toast.LENGTH_SHORT).show();
+        }
+
+
     }
 
     public  boolean isStoragePermissionGranted() {
@@ -190,6 +159,7 @@ public class ProgramFeaturesActivity extends AppCompatActivity {
             return true;
         }
     }
+
 
 
     BroadcastReceiver downloadCompleteReceiver = new BroadcastReceiver() {
@@ -235,9 +205,23 @@ public class ProgramFeaturesActivity extends AppCompatActivity {
         unregisterReceiver(downloadCompleteReceiver);
     }
 
+    private void lectureType(ArrayList<CourseChaptersData> courseChaptersListType) {
+
+        DialogFragment newDialog = ChapterTypeFragment.newInstance(courseChaptersListType);
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        Fragment previousFragment = getSupportFragmentManager().findFragmentByTag("lectureTag");
+        if (previousFragment != null){
+            fragmentTransaction.remove(previousFragment);
+        }
+
+        newDialog.show(fragmentTransaction, "lectureTag");
+    }
+
     private void purchasePopUp(CourseFeaturesData courseFeaturesData) {
 
-        DialogFragment newDialog = PurchaseCourseDialogFragment.newDialogInstance("1000", programTitle.getText().toString() );
+        DialogFragment newDialog = PurchaseCourseDialogFragment.newDialogInstance(courseFeaturesData.getProgramfeeNaira(),
+                courseFeaturesData.getProgramfeeDollar()
+                , courseFeaturesData.getProgramTitle(), courseFeaturesData.getProgramId());
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         Fragment previousFragment = getSupportFragmentManager().findFragmentByTag("fragmentTag");
         if (previousFragment != null){
@@ -263,7 +247,7 @@ public class ProgramFeaturesActivity extends AppCompatActivity {
         videoView = findViewById(R.id.programPreviewVideo);
         programTitle = findViewById(R.id.courseTitle);
         programDescription = findViewById(R.id.courseDescription);
-        programVideoDuration = findViewById(R.id.coursevideoduration);
+
 //        imagepreview = findViewById(R.id.programPreviewVideo);
 //        imagepreview.setImageResource(R.drawable.slidetwo);
         getProgramChaptersFromDatabase = new GetProgramChaptersFromDatabase(this);
@@ -274,7 +258,7 @@ public class ProgramFeaturesActivity extends AppCompatActivity {
         getStartedOrPayForCourse = findViewById(R.id.payForOrStartCourse);
 //        downloadCourseButton = findViewById(R.id.downloadCourse);
 
-        myNewToolbar = findViewById(R.id.mynewtoolbar);
+
     }
 
     private void showVideoPopUp() {
@@ -285,22 +269,53 @@ public class ProgramFeaturesActivity extends AppCompatActivity {
         if (previousFragment != null) {
             fragmentTransaction.remove(previousFragment);
         }
-        previewCourseVideoDialogFragmentNewInstance = PreviewCourseVideoDialogFragment.newVideoDialogInstance("https://peptribe-uploads.s3.amazonaws.com/upload/videos/2018/08/Q9xilJ2zY2wjtXO5gsmn_17_3f3a2681d60daae03e11a10075672c06_video.mp4");
+        previewCourseVideoDialogFragmentNewInstance =
+                PreviewCourseVideoDialogFragment.newVideoDialogInstance("https://peptribe-uploads.s3.amazonaws.com/upload/videos/2018/08/Q9xilJ2zY2wjtXO5gsmn_17_3f3a2681d60daae03e11a10075672c06_video.mp4");
         previewCourseVideoDialogFragmentNewInstance.show(fragmentTransaction, "videopreview");
     }
 
+    public void getCoursePayStatusSuccess(ArrayList<CoursePayStatus> coursePayStatuses){
+        coursepaidStatus = true;
+        coursesPaidForList = coursePayStatuses;
+    }
     public  void getProgramFeaturesSuccess(final CourseFeaturesData courseFeaturesData){
         Toast.makeText(this, "Your Program features gorren succesfully", Toast.LENGTH_LONG);
-        if (courseFeaturesData != null){
+        courseFeaturesDataActivity = courseFeaturesData;
+
+        programFeaturesGotten = true;
+
+        if (courseFeaturesDataActivity != null ){
             programTitle.setText(courseFeaturesData.getProgramTitle());
             programDescription.setText(courseFeaturesData.getProgramDescription());
-            programVideoDuration.setText(courseFeaturesData.getProgramTimeDuration());
+//            programVideoDuration.setText(courseFeaturesData.getProgramTimeDuration());
 
             getStartedOrPayForCourse.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
-                    purchasePopUp(courseFeaturesData);
+
+                    if (courseChapterDataGotten == true && coursepaidStatus == true){
+                        boolean found = false;
+
+                        for (int i =0; i <coursesPaidForList.size(); i++){
+                            if( TextUtils.equals(coursesPaidForList.get(i).getCourseTitle(), courseFeaturesDataActivity.getProgramTitle()))
+                            {
+                                found = true;
+                                break;
+                            }
+                        }
+
+
+                        if (found) {
+                            lectureType(courseChaptersListActivity);
+
+                    }else {
+
+                        purchasePopUp(courseFeaturesDataActivity);
+                            }
+
+                    }
+
                 }
             });
         }
@@ -314,14 +329,39 @@ public class ProgramFeaturesActivity extends AppCompatActivity {
 
     public void getCourseChapterSuccess(final ArrayList<CourseChaptersData> courseChaptersList){
        programChaptersAdapterInstance = new ProgramChaptersAdapter(courseChaptersList,ProgramFeaturesActivity.this);
+       courseChaptersListActivity = courseChaptersList;
+       courseChapterDataGotten = true;
        programChaptersAdapterInstance.setListenerChild(new ProgramChaptersAdapter.Listener() {
            @Override
            public void chapterOnClick(int position) {
+               if ( coursepaidStatus == true){
+                   boolean found = false;
 
-               Intent intent = new Intent(ProgramFeaturesActivity.this, ChaptersDetailActivity.class);
-               intent.putExtra(ChaptersDetailActivity.EXTRA_CHAPTER_ARRAY , courseChaptersList);
-               intent.putExtra(ChaptersDetailActivity.EXTRA_CHAPTER_POSITION , position);
-               startActivity(intent);
+                   for (int i =0; i <coursesPaidForList.size(); i++){
+                       if( TextUtils.equals(coursesPaidForList.get(i).getCourseTitle(), courseFeaturesDataActivity.getProgramTitle()))
+                       {
+                           found = true;
+                           break;
+                       }
+                   }
+
+
+                   if (found) {
+//                           Intent intent = new Intent(ProgramFeaturesActivity.this, ChaptersDetailActivity.class);
+//                           intent.putExtra(ChaptersDetailActivity.EXTRA_CHAPTER_ARRAY , courseChaptersListActivity);
+//                           intent.putExtra(ChaptersDetailActivity.EXTRA_CHAPTER_POSITION , position);
+//                           startActivity(intent);
+                       lectureType(courseChaptersListActivity);
+                       }else {
+
+                           purchasePopUp(courseFeaturesDataActivity);
+                       }
+
+               }
+//               Intent intent = new Intent(ProgramFeaturesActivity.this, ChaptersDetailActivity.class);
+//               intent.putExtra(ChaptersDetailActivity.EXTRA_CHAPTER_ARRAY , courseChaptersListActivity);
+//               intent.putExtra(ChaptersDetailActivity.EXTRA_CHAPTER_POSITION , position);
+//               startActivity(intent);
            }
        });
        programChaptersAdapterInstance.notifyDataSetChanged();

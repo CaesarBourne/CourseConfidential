@@ -31,7 +31,7 @@ android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="13dp"
-        android:text="Transcript"
+        android:text="Video"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/chapterVideoView" />
 
@@ -48,15 +48,7 @@ android:layout_width="match_parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
-    <TextView
-        android:id="@+id/chapterVideoDuration"
-        android:layout_width="wrap_content"
-        android:layout_height="16dp"
-        android:layout_marginTop="14dp"
-        android:layout_marginEnd="14dp"
-        android:text="14 mins"
-        app:layout_constraintEnd_toStartOf="@+id/playChapterVideo"
-        app:layout_constraintTop_toBottomOf="@+id/chapterVideoView" />
+
 
     <TextView
         android:id="@+id/transcriptChapter"
@@ -64,7 +56,7 @@ android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="19dp"
-        android:text="Transcript"
+        android:text="Course Outline"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/chapterTitle" />
 
@@ -127,12 +119,11 @@ android:layout_width="match_parent"
         app:layout_constraintTop_toBottomOf="@+id/chapterVideoView" />
 
     <Button
-        android:id="@+id/downloadCourse"
+        android:id="@+id/downloadChapter"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="2dp"
-        android:visibility="gone"
         android:layout_marginEnd="16dp"
         android:background="?attr/selectableItemBackground"
         android:drawableLeft="@drawable/download_course"

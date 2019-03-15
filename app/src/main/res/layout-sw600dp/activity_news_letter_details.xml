@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context=".UI_Components.Activities.NewsLetterDetailsActivity"
+    >
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbarlayout_id"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@color/blue_200"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapsingtoolbar_id"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:contentScrim="?attr/colorPrimary"
+            app:expandedTitleMarginEnd="64dp"
+            app:expandedTitleMarginStart="48dp"
+            app:layout_scrollFlags="exitUntilCollapsed|scroll"
+            app:title="Anime Title"
+            app:titleEnabled="false">
+
+            <android.support.v7.widget.Toolbar
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:theme="@style/ThemeOverlay.AppCompat.Light"
+                app:layout_collapseMode="pin"></android.support.v7.widget.Toolbar>
+
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+
+                <TextView
+                    android:id="@+id/newsTitleDetail"
+                    android:layout_width="368dp"
+                    android:layout_height="90dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:padding="10dp"
+                    android:text="The essence of trade in ecporting goods and services (Brilla)"
+                    android:textColor="@color/white"
+                    android:textSize="17sp"
+                    android:transitionName="@string/newstitle_transition"
+                    app:layout_constraintStart_toEndOf="@+id/impexLogoDetail"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/impexLogoDetail"
+                    android:layout_width="79dp"
+                    android:layout_height="72dp"
+                    android:layout_marginTop="28dp"
+                    android:layout_marginEnd="9dp"
+                    android:transitionName="@string/newsimage_transition"
+                    app:layout_constraintEnd_toStartOf="@+id/newsTitle"
+                    app:layout_constraintHorizontal_chainStyle="spread_inside"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/impexlogo" />
+
+                <TextView
+                    android:id="@+id/newsReadDurationDetail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="172dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="136dp"
+                    android:text="6 mins read"
+                    android:textColor="@color/blue_900"
+                    android:transitionName="@string/newsreaduration_transition"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/newsDateDetail" />
+
+                <TextView
+                    android:id="@+id/newsDateDetail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="157dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="127dp"
+                    android:text="16- 11 -2019"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:transitionName="@string/newsdate_transition"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.9"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/newsTitleDetail" />
+
+
+
+
+            </android.support.constraint.ConstraintLayout>
+
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+
+    </android.support.design.widget.AppBarLayout>
+
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:padding="16dp"        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <TextView
+
+                android:text="NerwsLetter Details"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="20sp"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:paddingBottom="20dp"
+                android:id="@+id/descriptionheHearder"/>
+
+            <TextView
+                android:id="@+id/newsContentDetail"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/Describe"
+                android:textColor="@color/black"
+                android:transitionName="@string/newsdescription_transition" />
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+
+
+
+</android.support.design.widget.CoordinatorLayout>

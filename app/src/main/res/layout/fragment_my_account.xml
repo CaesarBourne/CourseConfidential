@@ -2,9 +2,10 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
 
+    android:layout_height="match_parent"
     tools:context=".UI_Components.Fragments.MyAccountFragment">
 
     <ScrollView
@@ -22,7 +23,7 @@
                 android:layout_height="39dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="24dp"
-                android:text="John Smith"
+                android:text="Impex User"
                 android:textColor="@color/black"
                 android:textSize="25sp"
                 android:textStyle="bold"
@@ -99,7 +100,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/editprofileView" />
 
             <Button
-                android:id="@+id/myOrdersView"
+                android:id="@+id/myPaidCoursesView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -110,7 +111,7 @@
                 android:drawablePadding="20dp"
                 android:gravity=""
                 android:padding="10dp"
-                android:text="My Orders"
+                android:text="My Paid Courses"
                 android:textAllCaps="false"
                 android:textColor="@color/black"
                 android:textSize="20sp"
@@ -118,23 +119,23 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/changePasswordView" />
 
-            <TextView
-                android:id="@+id/other"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="29dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="320dp"
-                android:text="Other"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/myOrdersView" />
+            <!--<TextView-->
+                <!--android:id="@+id/other"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginStart="29dp"-->
+                <!--android:layout_marginTop="10dp"-->
+                <!--android:layout_marginEnd="320dp"-->
+                <!--android:text="Other"-->
+                <!--app:layout_constraintEnd_toEndOf="parent"-->
+                <!--app:layout_constraintStart_toStartOf="parent"-->
+                <!--app:layout_constraintTop_toBottomOf="@+id/myPaidCoursesView" />-->
 
             <Button
-                android:id="@+id/myPurchasesView"
+                android:id="@+id/setCurrencyView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="9dp"
+                android:layout_marginTop="8dp"
                 android:background="@color/grey"
                 android:clickable="true"
                 android:drawableLeft="@drawable/my_purchases_icon"
@@ -142,39 +143,48 @@
                 android:drawablePadding="20dp"
                 android:gravity=""
                 android:padding="10dp"
-                android:text="My Purchases"
+                android:text="Set Currency"
                 android:textAllCaps="false"
                 android:textColor="@color/black"
+
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/other" />
+                app:layout_constraintTop_toBottomOf="@+id/myPaidCoursesView" />
 
-            <Button
-                android:id="@+id/ongoingHistoryView"
+            <RadioGroup
+                android:id="@+id/radioGroup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:background="@color/grey"
-                android:clickable="true"
-                android:drawableLeft="@drawable/ongoing_trainings_icon"
-                android:drawableRight="@drawable/forwardarrow"
-                android:drawablePadding="20dp"
-                android:gravity=""
-                android:padding="10dp"
-                android:text="My Ongoing Trainings"
-                android:textAllCaps="false"
-                android:textColor="@color/black"
-                android:textSize="20sp"
+                android:layout_marginTop="14dp"
+                android:gravity="center"
+                android:visibility="gone"
+                android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/myPurchasesView" />
+                app:layout_constraintTop_toBottomOf="@+id/setCurrencyView">
+
+                <RadioButton
+                    android:id="@+id/nairaPay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="@string/naira"
+                   />
+
+                <RadioButton
+                    android:id="@+id/dollarPay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/dollar"
+                    />
+            </RadioGroup>
 
             <Button
                 android:id="@+id/downdHistoryView"
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="8dp"
                 android:background="@color/grey"
                 android:clickable="true"
                 android:drawableLeft="@drawable/download_icon"
@@ -188,7 +198,7 @@
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ongoingHistoryView" />
+                app:layout_constraintTop_toBottomOf="@+id/setCurrencyView" />
 
 
         </android.support.constraint.ConstraintLayout>

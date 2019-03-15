@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.DownloadManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +12,8 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.media.RingtoneManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
@@ -27,6 +30,8 @@ import android.widget.Toast;
 
 import com.bourne.caesar.impextutors.MainActivity;
 import com.bourne.caesar.impextutors.Models.CourseChaptersData;
+import com.bourne.caesar.impextutors.Offline_Database.PayTable;
+import com.bourne.caesar.impextutors.Offline_Database.ViewModel.PayViewModel;
 import com.bourne.caesar.impextutors.R;
 import com.bourne.caesar.impextutors.Utilities.Constants;
 import com.google.android.exoplayer2.DefaultLoadControl;
@@ -54,6 +59,7 @@ import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class ChaptersDetailActivity extends AppCompatActivity implements Player.EventListener {
@@ -62,6 +68,7 @@ public class ChaptersDetailActivity extends AppCompatActivity implements Player.
     private ArrayList<CourseChaptersData> courseChaptersList;
     private PlayerView chapterVideoView;
     private int chapterPosition;
+    private PayViewModel payViewModel;
 
     private static final String KEY_VIDEO_URI = "video_uri";
 
@@ -77,7 +84,7 @@ public class ChaptersDetailActivity extends AppCompatActivity implements Player.
 
     private Button playChapterVideo, previousChapterButton, nextChapteButton,downloadCourseButton;
     android.widget.MediaController mediaController;
-    TextView chapterTitleView, chapterDescription, chaptervideoDurationView;
+    TextView chapterTitleView, chapterDescription;
 
     String videoUri;
     SimpleExoPlayer player;
@@ -89,6 +96,9 @@ public class ChaptersDetailActivity extends AppCompatActivity implements Player.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chapters_detail);
         initialization();
+        payViewModel = ViewModelProviders.of(this).get(PayViewModel.class);
+
+
         if (getIntent().getExtras() != null){
             courseChaptersList = (ArrayList<CourseChaptersData>) getIntent().getSerializableExtra(EXTRA_CHAPTER_ARRAY);
             chapterPosition = getIntent().getExtras().getInt(EXTRA_CHAPTER_POSITION);
@@ -103,16 +113,25 @@ public class ChaptersDetailActivity extends AppCompatActivity implements Player.
             registerReceiver(downloadCompleteReceiver, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
 
 
-            Download_Uri = Uri.parse("https://firebasestorage.googleapis.com/v0/b/impexcollege.appspot.com/o/TPDP%20Customer%20Service%20Lecture-2_SDLow.mp4?alt=media&token=60f1f158-beee-4900-9cc0-d6b0c8ea3ae5");
+
 
             nextChapteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (chapterPosition == 2){
-                        nextChapteButton.setEnabled(false);
+//                    if (chapterPosition == 2){
+//                        nextChapteButton.setEnabled(false);
+//                    }
+//                    else if (chapterPosition < chapterListSize ){
+//                         chapterPosition = chapterPosition + 1;
+//                        setViews(chapterPosition);
+//                    }
+                    if (chapterPosition == chapterListSize-1){
+                        Toast.makeText(ChaptersDetailActivity.this, "End of chapters", Toast.LENGTH_SHORT).show();
+                        return;
+
                     }
-                    else if (chapterPosition < chapterListSize ){
-                         chapterPosition = chapterPosition + 1;
+                    else if (chapterPosition < chapterListSize-1){
+                        chapterPosition = chapterPosition +1;
                         setViews(chapterPosition);
                     }
                     else {
@@ -125,12 +144,12 @@ public class ChaptersDetailActivity extends AppCompatActivity implements Player.
                 @Override
                 public void onClick(View v) {
                     if (chapterPosition ==  0){
-                        previousChapterButton.setEnabled(false);
+                        previousChapterButton.setVisibility(View.INVISIBLE);
+                        return;
                     }
-                    else if (chapterPosition < chapterListSize ){
+                    else if (chapterPosition < chapterListSize){
                         chapterPosition = chapterPosition - 1;
                         setViews(chapterPosition);
-
                     }
 
                     else {
@@ -146,26 +165,7 @@ public class ChaptersDetailActivity extends AppCompatActivity implements Player.
 
             }
 
-            downloadCourseButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    list.clear();
 
-                    DownloadManager.Request downloadRequest = new DownloadManager.Request(Download_Uri);
-                    downloadRequest.setDescription("downloading program.mp4.....");
-                    downloadRequest.setTitle("ProgramPay");
-                    downloadRequest.setDestinationInExternalFilesDir(ChaptersDetailActivity.this,Environment.DIRECTORY_DOWNLOADS,
-                            "/.Impex/programnumber.mp4");
-//                String downloadstore = ProgramFeaturesActivity.this,Environment.DIRECTORY_DOWNLOADS,
-//                        "/.Impex/programnumber.mp4"
-//                downloadRequest.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "/.Impex/programnumber.mp4");
-                    downloadRequest.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE | DownloadManager.Request.NETWORK_WIFI);
-
-                    long reference_download_ID = downloadManager.enqueue(downloadRequest);
-
-                    list.add(reference_download_ID);
-                }
-            });
 
         }
 
@@ -205,6 +205,9 @@ public class ChaptersDetailActivity extends AppCompatActivity implements Player.
 
             list.remove(downloadTag);
             if (list.isEmpty()){
+                String chapterTitle = courseChaptersList.get(chapterPosition).CourseID;
+                PayTable payTable = new PayTable(chapterTitle);
+                payViewModel.InsertPayID(payTable);
                 NotificationCompat.Builder notification = new NotificationCompat.Builder(ChaptersDetailActivity.this);
                 Intent intentstart = new Intent(ChaptersDetailActivity.this, MainActivity.class);
                 intent.putExtra(PaaymentSuccessfulActivity.TRANSACTION_ID, "Your program is downloaded you would be abale to view offline...");
@@ -227,23 +230,86 @@ public class ChaptersDetailActivity extends AppCompatActivity implements Player.
                 notification.setAutoCancel(true);
 
                 NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                notificationManager.notify(23, notification.build());
+                notificationManager.notify(7, notification.build());
 
             }
         }
     };
 
-    private void setViews(int chapterNewPosition) {
-        chapterTitleView.setText(courseChaptersList.get(chapterNewPosition).CourseNumber+ " .   " +
+    private void setViews(final int chapterNewPosition) {
+//        payViewModel.getAllPayment().observe(this, new Observer<List<PayTable>>() {
+//            //onchanged is only called when activity is in the
+//            // foreground if activity is destroyed the refernce is cleaned too
+//            @Override
+//            public void onChanged(@Nullable List<PayTable> payTables) {
+//                for (int i =0; i<payTables.size(); i++) {
+//                    if (payTables.get(i).getCourseName() == courseChaptersList.get(chapterNewPosition).CourseAudio) {
+//                        downloadCourseButton.setVisibility(View.GONE);
+//                    }
+//                }
+//            }
+//        });
+        videoUri =  courseChaptersList.get(chapterNewPosition).CourseVideoStream;
+        Download_Uri = Uri.parse(videoUri);
+        chapterTitleView.setText(String.valueOf(chapterNewPosition + 1)+ " .   " +
                 courseChaptersList.get(chapterNewPosition).CourseTitle);
         chapterDescription.setText(courseChaptersList.get(chapterNewPosition).CourseDescription);
-        chaptervideoDurationView.setText(courseChaptersList.get(chapterNewPosition).CourseVideoDuration);
-        videoUri =  courseChaptersList.get(chapterNewPosition).CourseVideoStream;
+//        chaptervideoDurationView.setText(courseChaptersList.get(chapterNewPosition).CourseVideoDuration);
 
+
+
+        final ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         playChapterVideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setUp();
+                String path = getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS) + File.separator +".Impex" +File.separator +
+                        courseChaptersList.get(chapterPosition).CourseID+".mp4";
+
+                File file =  new File(path);
+                if (file.exists()){
+                    Toast.makeText(ChaptersDetailActivity.this, "This chapter is playing from the Impex app" +
+                            "as it has been downloaded", Toast.LENGTH_SHORT).show();
+                    videoUri = path;
+                    downloadCourseButton.setVisibility(View.GONE);
+                    playChapterVideo.setBackgroundColor(getResources().getColor(R.color.green_500));
+                    setUp();
+                }
+                else if (connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() ==
+                        NetworkInfo.State.CONNECTED || connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
+                        .getState() == NetworkInfo.State.CONNECTED){
+                    playChapterVideo.setBackgroundColor(getResources().getColor(R.color.blue_500));
+                    videoUri =  courseChaptersList.get(chapterNewPosition).CourseVideoStream;
+                    setUp();
+                    Toast.makeText(ChaptersDetailActivity.this, "Streaming from the Impex network", Toast.LENGTH_SHORT).show();
+
+                }else{
+                    Toast.makeText(ChaptersDetailActivity.this, "No network connection Try later", Toast.LENGTH_SHORT).show();
+                    playChapterVideo.setBackgroundColor(getResources().getColor(R.color.red_500));
+                }
+            }
+        });
+
+        downloadCourseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                list.clear();
+                String downloadCourseName = courseChaptersList.get(chapterNewPosition).CourseID;
+                DownloadManager.Request downloadRequest = new DownloadManager.Request(Download_Uri);
+                downloadRequest.setDescription("downloading program.mp4.....");
+                downloadRequest.setTitle("ProgramPay");
+
+                downloadRequest.setDestinationInExternalFilesDir(ChaptersDetailActivity.this,Environment.DIRECTORY_DOWNLOADS,
+                        "/.Impex/"+downloadCourseName+".mp4");
+;
+
+//                String downloadstore = ProgramFeaturesActivity.this,Environment.DIRECTORY_DOWNLOADS,
+//                        "/.Impex/programnumber.mp4"
+//                downloadRequest.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "/.Impex/programnumber.mp4");
+                downloadRequest.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE | DownloadManager.Request.NETWORK_WIFI);
+                downloadCourseButton.setVisibility(View.GONE);
+                long reference_download_ID = downloadManager.enqueue(downloadRequest);
+
+                list.add(reference_download_ID);
             }
         });
 
@@ -260,25 +326,39 @@ public class ChaptersDetailActivity extends AppCompatActivity implements Player.
 //        });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        String path = getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS) + File.separator +".Impex" +File.separator +
+                courseChaptersList.get(chapterPosition).CourseID+".mp4";
+        File file =  new File(path);
+
+        if (file.exists()){
+            downloadCourseButton.setVisibility(View.GONE);
+        }
+    }
+
     private void initialization() {
         chapterVideoView = findViewById(R.id.chapterVideoView);
         chapterTitleView = findViewById(R.id.chapterTitle);
         chapterDescription = findViewById(R.id.chapterDescription);
-        chaptervideoDurationView = findViewById(R.id.chapterVideoDuration);
+
         playChapterVideo = findViewById(R.id.playChapterVideo);
         previousChapterButton = findViewById(R.id.chaapterPreviousButton);
         nextChapteButton = findViewById(R.id.chapterNextButton);
-        downloadCourseButton = findViewById(R.id.downloadCourse);
+        downloadCourseButton = findViewById(R.id.downloadChapter);
         spinnerVideoDetails = findViewById(R.id.spinnerVideoDetails);
-        chapterVideoView = findViewById(R.id.chapterVideoView);
+
     }
 
 
     private void setUp() {
         initializePlayer();
         if (videoUri == null) {
+            Toast.makeText(this, "Video Link is broken or empty", Toast.LENGTH_SHORT).show();
             return;
         }
+        spinnerVideoDetails.setVisibility(View.VISIBLE);
         buildMediaSource(Uri.parse(videoUri));
     }
 

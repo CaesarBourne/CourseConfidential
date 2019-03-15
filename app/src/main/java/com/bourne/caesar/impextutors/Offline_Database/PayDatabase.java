@@ -7,7 +7,7 @@ import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-@Database(entities = {PayTable.class}, version = 1)
+@Database(entities = {PayTable.class}, version = 1, exportSchema = false)
 public abstract class PayDatabase extends RoomDatabase {
 
     public abstract PayDao payDao();

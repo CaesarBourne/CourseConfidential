@@ -15,15 +15,15 @@
         <!--<item-->
             <!--android:id="@+id/nav_ebooks"-->
             <!--android:icon="@drawable/menuebooks"-->
-            <!--android:title="Slideshow" />-->
+            <!--android:title="Add NewsLetters" />-->
         <item
             android:id="@+id/nav_newsletters"
             android:icon="@drawable/menunewsletters"
             android:title="Newsletters" />
-        <item
-            android:id="@+id/nav_importexport"
-            android:icon="@drawable/menuimportexport"
-            android:title="Import Export Training Products" />
+        <!--<item-->
+            <!--android:id="@+id/nav_importexport"-->
+            <!--android:icon="@drawable/menuimportexport"-->
+            <!--android:title="Add Radio Podcasts" />-->
     </group>
 
     <item android:title="">
@@ -31,19 +31,25 @@
             <!--<item-->
                 <!--android:id="@+id/nav_customerservice"-->
                 <!--android:icon="@drawable/menucustomer"-->
-                <!--android:title="Customer Service" />-->
+                <!--android:title="Add Featured Courses" />-->
             <item
                 android:id="@+id/nav_invitefriends"
                 android:icon="@drawable/menuinvitefriends"
                 android:title="Invite Friends" />
+            <!--<item-->
+                <!--android:id="@+id/nav_addprogram"-->
+                <!--android:icon="@drawable/menuaboutapp"-->
+                <!--android:title="Add Program" />-->
+            <!--<item-->
+                <!--android:id="@+id/nav_setingss"-->
+                <!--android:icon="@drawable/menusettings"-->
+                <!--android:title="Add classes" />-->
+
             <item
-                android:id="@+id/nav_aboutapp"
+                android:id="@+id/nav_about_app"
                 android:icon="@drawable/menuaboutapp"
-                android:title="About App" />
-            <item
-                android:id="@+id/nav_setingss"
-                android:icon="@drawable/menusettings"
-                android:title="Settings" />
+                android:title="About app" />
+
             <item
                 android:id="@+id/nav_logout"
                 android:icon="@drawable/menulogout"

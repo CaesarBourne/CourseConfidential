@@ -8,10 +8,12 @@ import android.widget.Button;
 
 import com.bourne.caesar.impextutors.MainActivity;
 import com.bourne.caesar.impextutors.R;
+import com.bourne.caesar.impextutors.Utilities.Constants;
 
 public class PaaymentSuccessfulActivity extends AppCompatActivity {
 
     public static final String TRANSACTION_ID = "transact";
+    public static final String COURSE_TITLE = "courseTitle";
     Button goHomeButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,8 +23,12 @@ public class PaaymentSuccessfulActivity extends AppCompatActivity {
         goHomeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(PaaymentSuccessfulActivity.this, MainActivity.class);
-                startActivity(intent);
+                if (getIntent().getExtras() != null){
+                    String courseTitle = getIntent().getExtras().getString(COURSE_TITLE);
+                    Intent intent = new Intent(PaaymentSuccessfulActivity.this, ProgramFeaturesActivity.class);
+                    intent.putExtra(ProgramFeaturesActivity.PROGRAM_ID, courseTitle);
+                    startActivity(intent);
+                }
             }
         });
     }

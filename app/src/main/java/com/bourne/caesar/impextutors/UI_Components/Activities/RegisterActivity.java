@@ -36,8 +36,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.bourne.caesar.impextutors.R;
-import com.bourne.caesar.impextutors.TasksCore.AddImpexUserToFirebase;
-import com.bourne.caesar.impextutors.TasksCore.RegistrationCore;
+import com.bourne.caesar.impextutors.FirebaseTasksCore.AddImpexUserToFirebase;
+import com.bourne.caesar.impextutors.FirebaseTasksCore.RegistrationCore;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -76,7 +76,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
     private View mLoginFormView;
     private Button startLoginActivity;
     RegistrationCore registrationCore;
-    AutoCompleteTextView usernameView, dateofBirthView;
+    AutoCompleteTextView usernameView;
     AddImpexUserToFirebase addImpexUserToFirebase;
 
     @Override
@@ -124,7 +124,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
     }
     public void bindviews(){
         usernameView = findViewById(R.id.usernameView);
-        dateofBirthView = findViewById(R.id.dateofBirthView);
+//        dateofBirthView = findViewById(R.id.dateofBirthView);
     }
 
     private void populateAutoComplete() {
@@ -189,13 +189,13 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         mEmailView.setError(null);
         mPasswordView.setError(null);
         usernameView.setError(null);
-        dateofBirthView.setError(null);
+//        dateofBirthView.setError(null);
 
         // Store values at the time of the login attempt.
         String email = mEmailView.getText().toString().trim();
         String password = mPasswordView.getText().toString().trim();
         String username = usernameView.getText().toString().trim();
-        String dateofBirth = dateofBirthView.getText().toString().trim();
+//        String dateofBirth = dateofBirthView.getText().toString().trim();
 
         boolean cancel = false;
         View focusView = null;
@@ -227,12 +227,12 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
             cancel = true;
 
         }
-        if (TextUtils.isEmpty(dateofBirth)) {
-            mEmailView.setError(getString(R.string.error_field_required));
-            focusView = dateofBirthView;
-            cancel = true;
-
-        }
+//        if (TextUtils.isEmpty(dateofBirth)) {
+//            mEmailView.setError(getString(R.string.error_field_required));
+//            focusView = dateofBirthView;
+//            cancel = true;
+//
+//        }
         else if (!isEmailValid(email)) {
             mEmailView.setError(getString(R.string.error_invalid_email));
             focusView = mEmailView;
@@ -253,17 +253,17 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
             // perform the user login attempt.
             showProgress(true);
 
-            registrationCore.registerImpexUser(email, password, username, dateofBirth, this);
+            registrationCore.registerImpexUser(email, password, username,  this);
 //            mAuthTask = new UserLoginTask(email, password);
 //            mAuthTask.execute((Void) null);
 
 
         }
     }
-    public  void registrationSuccessful(FirebaseUser firebaseUser, String username, String dateofbirth){
+    public  void registrationSuccessful(FirebaseUser firebaseUser, String username){
 
         Toast.makeText(this, "Registration is succesfull", Toast.LENGTH_LONG);
-        addImpexUserToFirebase.addUserToFirebaseDatabase(firebaseUser, username, dateofbirth);
+        addImpexUserToFirebase.addUserToFirebaseDatabase(firebaseUser, username);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
